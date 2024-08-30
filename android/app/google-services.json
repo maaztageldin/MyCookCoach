@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "474219284522",
+    "firebase_url": "https://mycookcoach-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "mycookcoach",
+    "storage_bucket": "mycookcoach.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:474219284522:android:45ab0f0602b79fdfb39b53",
+        "android_client_info": {
+          "package_name": "com.esgi.pa5moc.mycookcoach"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBBZNQivC7ql6rH0S3qT97FNKvguVIsSiQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

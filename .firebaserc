@@ -1,0 +1,12 @@
+{
+  "projects": {
+    "default": "mycookcoach"
+  },
+  "targets": {},
+  "etags": {
+    "mycookcoach": {
+      "extensionInstances": {}
+    }
+  },
+  "dataconnectEmulatorConfig": {}
+}
