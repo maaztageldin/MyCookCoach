@@ -47,48 +47,49 @@ class _LocationScreenState extends State<LocationScreen> {
             return const Center(child: CircularProgressIndicator());
           } else if (state is LocalsLoaded && state.locals.isNotEmpty) {
             return Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Padding(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: kDefaultPaddin),
-                    child: Text(
-                      "Louer votre espace",
-                      style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                            fontWeight: FontWeight.bold,
-                            color: kTextColor,
-                          ),
-                    ),
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Padding(
+                  padding:
+                  const EdgeInsets.symmetric(horizontal: kDefaultPaddin),
+                  child: Text(
+                    "Equiper ta Cuisine",
+                    style: Theme.of(context)
+                        .textTheme
+                        .titleLarge!
+                        .copyWith(fontWeight: FontWeight.bold),
                   ),
-                 const SizedBox(height: kDefaultPaddin),
-                  Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: kDefaultPaddin),
-                      child: ListView.builder(
-                        itemCount: state.locals.length,
-                        itemBuilder: (context, index) {
-                          final LocalEntity local = state.locals[index];
-                          return Padding(
-                            padding:
-                                const EdgeInsets.only(bottom: kDefaultPaddin),
-                            child: LocationItemCard(
-                              local: local,
-                              press: () => Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) =>
-                                      KitchenScreen(localId: local.id),
-                                ),
-                              ),
+                ),
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: kDefaultPaddin,
+                    ),
+                    child: GridView.builder(
+                      itemCount: state.locals.length, //products.length,
+                      gridDelegate:
+                      const SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,
+                        mainAxisSpacing: kDefaultPaddin,
+                        crossAxisSpacing: kDefaultPaddin,
+                        childAspectRatio: 0.75,
+                      ),
+                      itemBuilder: (context, index) => LocationItemCard(
+                        local: state.locals[index], // products[index],
+                        press: () => Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => KitchenScreen(
+                              localId: state.locals[index].id,
                             ),
-                          );
-                        },
+                          ),
+                        ),
                       ),
                     ),
                   ),
-                ],
-              );
+                ),
+              ],
+            );
           } else {
             return const Center(
               child: Text("Aucun local disponible pour le moment."),
