@@ -11,10 +11,11 @@ class CounterWithFavBtn extends StatelessWidget {
     super.key,
     required this.productId,
     required this.onQuantityChanged,
-    required this.numOfItems,
+    required this.numOfItems, required this.userId,
   });
 
   final String productId;
+  final String userId;
   final Function(int) onQuantityChanged;
   late int numOfItems;
 
@@ -28,7 +29,7 @@ class CounterWithFavBtn extends StatelessWidget {
             onQuantityChanged(quantity);
             context
                 .read<CartBloc>()
-                .add(RecalculateTotalEvent(quantity, productId));
+                .add(RecalculateTotalEvent(quantity, productId, userId));
             print('Quantity changed: $quantity');
           },
           numOfItems: numOfItems,

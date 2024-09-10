@@ -1,4 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mycookcoach/core/utils/constents.dart';
+import 'package:mycookcoach/features/authentication/data/repositories/firebase_user_repo.dart';
+import 'package:mycookcoach/features/authentication/presentation/blocs/user/user_bloc.dart';
+import 'package:mycookcoach/features/authentication/presentation/blocs/user/user_event.dart';
+import 'package:mycookcoach/features/authentication/presentation/blocs/user/user_state.dart';
 import 'package:mycookcoach/features/authentication/presentation/components/info_card.dart';
 import 'package:mycookcoach/features/authentication/presentation/components/side_menu_title.dart';
 import 'package:rive/rive.dart';
@@ -17,87 +23,122 @@ class _SideMenuState extends State<SideMenu> {
   RiveAsset selectedMenu = sidMenu.first;
 
   @override
+  void initState() {
+    super.initState();
+    context
+        .read<UserBloc>()
+        .add(GetUserById(FirebaseUserRepo().currentUser!.uid));
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        color: const Color(0xFF17203A),
-        child: SafeArea(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              InfoCard(
-                name: 'Adam Thomas',
-                role: 'Chef',
-              ),
-              // animated asset
-              Padding(
-                padding: const EdgeInsets.only(left: 24, top: 32, bottom: 16),
-                child: Text(
-                  "Parcourir".toUpperCase(),
-                  style: Theme.of(context)
-                      .textTheme
-                      .titleMedium!
-                      .copyWith(color: Colors.white70),
-                ),
-              ),
+      body: BlocConsumer<UserBloc, UserState>(
+        listener: (context, state) {
+          if (state is UserErrorState) {
+            print("Erreur utilisateur !");
+          }
+        },
+        builder: (context, state) {
+          if (state is UserLoaded) {
+            return Container(
+              color: const Color(0xFFD3A984),
+              child: SafeArea(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const SizedBox(height: kDefaultPaddin/2),
+                    InfoCard(
+                      name: '${state.user.firstName} ${state.user.lastName}',
+                      role: state.user.role!,
+                      photoUrl: state.user.pictureUrl,
+                    ),
+                    Padding(
+                      padding:
+                      const EdgeInsets.only(left: 24, top: 32, bottom: 16),
+                      child: Text(
+                        "Parcourir".toUpperCase(),
+                          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16,)
+                            //.copyWith(color: Colors.white70),
+                      ),
+                    ),
 
-              ...sidMenu.map((menu) => SideMenuTitle(
-                    menu: menu,
-                    riveOnInit: (artboard) {
-                      StateMachineController controller =
-                          RiveUtil.getRiveController(artboard,
-                              stateMachineName: menu.stateMachineName!);
-                      menu.input = controller.findSMI("active") as SMIBool;
-                    },
-                    press: () {
-                      menu.input!.change(true);
-                      Future.delayed(Duration(seconds: 1), () {
-                        menu.input!.change(false);
-                      });
-                      setState(() {
-                        selectedMenu = menu;
-                        widget.onMenuSelected(menu.title);
-                      });
-                    },
-                    isActive: selectedMenu == menu,
-                  )),
-              Padding(
-                padding: const EdgeInsets.only(left: 24, top: 42, bottom: 16),
-                child: Text(
-                  "Historique".toUpperCase(),
-                  style: Theme.of(context)
-                      .textTheme
-                      .titleMedium!
-                      .copyWith(color: Colors.white70),
+                    ...sidMenu.map((menu) => SideMenuTitle(
+                      menu: menu,
+                      riveOnInit: (artboard) {
+                        StateMachineController controller =
+                        RiveUtil.getRiveController(artboard,
+                            stateMachineName: menu.stateMachineName!);
+                        menu.input =
+                        controller.findSMI("active") as SMIBool;
+                      },
+                      press: () {
+                        menu.input!.change(true);
+                        Future.delayed(const Duration(seconds: 1), () {
+                          menu.input!.change(false);
+                        });
+                        setState(() {
+                          selectedMenu = menu;
+                          widget.onMenuSelected(menu.title);
+                        });
+                      },
+                      isActive: selectedMenu == menu,
+                    )),
+
+                    Padding(
+                      padding:
+                      const EdgeInsets.only(left: 24, top: 42, bottom: 16),
+                      child: Text(
+                        "Historique".toUpperCase(),
+                        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16,)/* Theme.of(context)
+                            .textTheme
+                            .titleMedium!*/
+                            //.copyWith(color: Colors.white70),
+                      ),
+                    ),
+
+                    ...sidMenu2.map((menu) => SideMenuTitle(
+                      menu: menu,
+                      riveOnInit: (Artboard artboard) {
+                        StateMachineController controller =
+                        RiveUtil.getRiveController(artboard,
+                            stateMachineName: menu.stateMachineName!);
+                        menu.input =
+                        controller.findSMI("active") as SMIBool;
+                      },
+                      press: () {
+                        menu.input!.change(true);
+                        Future.delayed(const Duration(seconds: 1), () {
+                          menu.input!.change(false);
+                        });
+                        setState(() {
+                          selectedMenu = menu;
+                          widget.onMenuSelected(menu.title);
+                        });
+                      },
+                      isActive: selectedMenu == menu,
+                    )),
+                  ],
                 ),
               ),
-              ...sidMenu2.map((menu) => SideMenuTitle(
-                    menu: menu,
-                    riveOnInit: (Artboard artboard) {
-                      StateMachineController controller =
-                          RiveUtil.getRiveController(artboard,
-                              stateMachineName: menu.stateMachineName!);
-                      menu.input = controller.findSMI("active") as SMIBool;
-                    },
-                    press: () {
-                      menu.input!.change(true);
-                      Future.delayed(Duration(seconds: 1), () {
-                        menu.input!.change(false);
-                      });
-                      setState(() {
-                        selectedMenu = menu;
-                        widget.onMenuSelected(menu.title);
-                      });
-                    },
-                    isActive: selectedMenu == menu,
-                  )),
-            ],
-          ),
-        ),
+            );
+          } else {
+            return Center(
+              child: Text(
+                "Une erreur est survenue !".toUpperCase(),
+                style: Theme.of(context)
+                    .textTheme
+                    .titleMedium!
+                    ,
+              ),
+            );
+          }
+        },
       ),
     );
   }
 }
+
 
 List<RiveAsset> sidMenu = [
   RiveAsset(
@@ -108,10 +149,11 @@ List<RiveAsset> sidMenu = [
     shapeStrokeTitle: 'home',
   ),
   RiveAsset(
-      stateMachineName: "SEARCH_Interactivity",
-      title: "Recherche",
-      src: Asset.iconSet1,
-      artboard: 'SEARCH'),
+    stateMachineName: "SEARCH_Interactivity",
+    title: "Mes commandes",
+    src: Asset.iconSet1,
+    artboard: 'SEARCH',
+  ),
   RiveAsset(
     src: Asset.iconSet3,
     artboard: 'Dots-CLICK',

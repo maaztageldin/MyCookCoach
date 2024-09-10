@@ -81,10 +81,6 @@ class StripeService {
   Future<bool> _processPayment(BuildContext context) async {
     try {
       await Stripe.instance.presentPaymentSheet();
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-            content: Text('Paiement réussi'), duration: Duration(seconds: 5)),
-      );
       return true;
     } catch (e) {
       _showErrorDialog(context, "Le paiement a échoué. Veuillez réessayer.");

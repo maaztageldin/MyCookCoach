@@ -9,4 +9,8 @@ class GetKitchenItemsUseCase {
   Future<List<KitchenItemEntity>> call() async {
     return await repository.fetchKitchenItems();
   }
+
+  Future<List<KitchenItemEntity>> fetchByCategory(String category) async {
+    return await repository.fetchKitchenItemsByCategory(category);
+  }
 }

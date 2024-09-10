@@ -4,10 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:mycookcoach/features/Notifications%20et%20alertes/presentation/pages/notifications_page.dart';
 import 'package:mycookcoach/features/authentication/data/models/menu_btn.dart';
 import 'package:mycookcoach/features/authentication/presentation/components/side_menu.dart';
-import 'package:mycookcoach/features/authentication/presentation/pages/home_page.dart';
 import 'package:mycookcoach/features/authentication/presentation/pages/home_screen.dart';
 import 'package:mycookcoach/features/authentication/presentation/pages/profile/profile_screen.dart';
-import 'package:mycookcoach/features/authentication/presentation/pages/search_screen/search_screen.dart';
+import 'package:mycookcoach/features/shop/presentation/pages/orders_screen.dart';
 import 'package:rive/rive.dart';
 import 'package:rive_animated_icon/rive_animated_icon.dart';
 
@@ -56,7 +55,7 @@ class _EntryPointState extends State<EntryPoint>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFF17203A),
+      backgroundColor: const Color(0xFFD3A984),
       resizeToAvoidBottomInset: false,
       extendBody: true,
       body: Stack(
@@ -91,16 +90,16 @@ class _EntryPointState extends State<EntryPoint>
                 child: ClipRRect(
                   borderRadius: BorderRadius.all(Radius.circular(24)),
                   child: _selectedPage == 'Home'
-                      ? HomePage()
-                      : _selectedPage == 'Recherche'
-                          ? SearchScreen()
+                      ? const PrestationScreen()
+                      : _selectedPage == 'Mes commandes'
+                          ? OrdersScreen()
                           : _selectedPage == 'Prestation'
                               ? const PrestationScreen()
                               : _selectedPage == 'Favorites'
                                   ? FavoritesPage()
                                   : _selectedPage == 'Notification'
                                       ? NotificationsPage()
-                                      : HomePage(),
+                                      : PrestationScreen(),
                 ),
               ),
             ),

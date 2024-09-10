@@ -22,12 +22,13 @@ class KitchenItemBloc extends Bloc<KitchenItemEvent, KitchenItemState> {
     on<AddKitchenItemEvent>(_onAddKitchenItem);
     on<UpdateKitchenItemEvent>(_onUpdateKitchenItem);
     on<DeleteKitchenItemEvent>(_onDeleteKitchenItem);
+    on<FetchKitchenItemsByCategoryEvent>(_onFetchKitchenItemsByCategory);
   }
 
   Future<void> _onFetchKitchenItems(
-      FetchKitchenItemsEvent event,
-      Emitter<KitchenItemState> emit,
-      ) async {
+    FetchKitchenItemsEvent event,
+    Emitter<KitchenItemState> emit,
+  ) async {
     try {
       final items = await getKitchenItemsUseCase.call();
       emit(KitchenItemLoadedState(items: items));
@@ -37,9 +38,9 @@ class KitchenItemBloc extends Bloc<KitchenItemEvent, KitchenItemState> {
   }
 
   Future<void> _onAddKitchenItem(
-      AddKitchenItemEvent event,
-      Emitter<KitchenItemState> emit,
-      ) async {
+    AddKitchenItemEvent event,
+    Emitter<KitchenItemState> emit,
+  ) async {
     try {
       await addKitchenItemUseCase.call(event.item);
       emit(KitchenItemSuccessState(message: 'Article ajouté avec succès'));
@@ -50,9 +51,9 @@ class KitchenItemBloc extends Bloc<KitchenItemEvent, KitchenItemState> {
   }
 
   Future<void> _onUpdateKitchenItem(
-      UpdateKitchenItemEvent event,
-      Emitter<KitchenItemState> emit,
-      ) async {
+    UpdateKitchenItemEvent event,
+    Emitter<KitchenItemState> emit,
+  ) async {
     try {
       await updateKitchenItemUseCase.call(event.item);
       emit(KitchenItemSuccessState(message: 'Article mis à jour avec succès'));
@@ -63,13 +64,47 @@ class KitchenItemBloc extends Bloc<KitchenItemEvent, KitchenItemState> {
   }
 
   Future<void> _onDeleteKitchenItem(
-      DeleteKitchenItemEvent event,
-      Emitter<KitchenItemState> emit,
-      ) async {
+    DeleteKitchenItemEvent event,
+    Emitter<KitchenItemState> emit,
+  ) async {
     try {
       await deleteKitchenItemUseCase.call(event.itemId);
       emit(KitchenItemSuccessState(message: 'Article supprimé avec succès'));
       add(FetchKitchenItemsEvent());
+    } catch (e) {
+      emit(KitchenItemErrorState(message: e.toString()));
+    }
+  }
+
+  Future<void> _onFetchKitchenItemsByCategory(
+    FetchKitchenItemsByCategoryEvent event,
+    Emitter<KitchenItemState> emit,
+  ) async {
+    try {
+      String category = '';
+
+      switch (event.categoryIndex) {
+        case 0:
+          category = "Ustensiles";
+          break;
+        case 1:
+          category = "Électroménagers";
+          break;
+        case 2:
+          category = "Outils de Découpe";
+          break;
+        case 3:
+          category = "Rangement et Conservation";
+          break;
+        case 4:
+          category = "Matériel de Pâtisserie";
+          break;
+        default:
+          category = "Tous";
+      }
+      final items = await getKitchenItemsUseCase.fetchByCategory(category);
+
+      emit(KitchenItemLoadedState(items: items));
     } catch (e) {
       emit(KitchenItemErrorState(message: e.toString()));
     }

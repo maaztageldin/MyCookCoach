@@ -2,16 +2,26 @@ import 'package:flutter/material.dart';
 import 'package:mycookcoach/core/utils/constents.dart';
 
 class Categories extends StatefulWidget {
-  const Categories({super.key});
+  final Function(int) onCategorySelected;
+
+  const Categories({super.key, required this.onCategorySelected});
 
   @override
   State<Categories> createState() => _CategoriesState();
 }
 
 class _CategoriesState extends State<Categories> {
-  List<String> categories = ["Ustensiles", "Électroménagers", "Outils de Découpe", "Rangement et Conservation", "Matériel de Pâtisserie"];
+  List<String> categories = [
+    "Tous",
+    "Ustensiles",
+    "Électroménagers",
+    "Outils de Découpe",
+    "Rangement et Conservation",
+    "Matériel de Pâtisserie"
+  ];
 
   int selectedIndex = 0;
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -33,6 +43,7 @@ class _CategoriesState extends State<Categories> {
         setState(() {
           selectedIndex = index;
         });
+        widget.onCategorySelected(index); // Notify the parent component
       },
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: kDefaultPaddin),
@@ -49,7 +60,7 @@ class _CategoriesState extends State<Categories> {
             Container(
               margin: const EdgeInsets.only(
                 top: kDefaultPaddin / 8,
-              ), //top padding 5
+              ),
               height: 2,
               width: 30,
               color: selectedIndex == index ? Colors.black : Colors.transparent,

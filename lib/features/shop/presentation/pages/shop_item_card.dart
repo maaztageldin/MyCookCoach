@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:mycookcoach/core/utils/constents.dart';
-import 'package:mycookcoach/features/shop/data/models/product.dart';
 import 'package:mycookcoach/features/shop/domain/entities/kitchen_item_entity.dart';
 
 class ItemCard extends StatelessWidget {
@@ -21,12 +20,19 @@ class ItemCard extends StatelessWidget {
               padding: const EdgeInsets.all(kDefaultPaddin),
               decoration: BoxDecoration(
                 color: const Color(0xFFD3A984),
-                  //const Color(0xFF989493)//product.color,
+                //const Color(0xFF989493)//product.color,
                 borderRadius: BorderRadius.circular(16),
               ),
               child: Hero(
                 tag: "${product.id}",
-                child: Image.network(product.imageUrl),
+                child: product.imageUrl.isNotEmpty
+                    ? Image.network(
+                        product.imageUrl,
+                        errorBuilder: (context, error, stackTrace) {
+                          return Image.asset("assets/shop/images/chef_img.png");
+                        },
+                      )
+                    : Image.asset("assets/shop/images/chef_img.png"),
               ),
             ),
           ),

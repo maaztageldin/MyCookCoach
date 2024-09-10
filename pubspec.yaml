@@ -88,7 +88,7 @@ flutter:
     - assets/recipes/shrimp_sushi_bowls.jpeg
     - assets/recipes/
     - assets/shop/icons/
-    #- assets/shop/images/
+    - assets/shop/images/
 
   # To add assets to your application, add an assets section, like this:
   # assets:

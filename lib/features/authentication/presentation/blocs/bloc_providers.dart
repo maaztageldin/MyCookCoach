@@ -26,19 +26,32 @@ import 'package:mycookcoach/features/authentication/presentation/blocs/auth_bloc
 import 'package:mycookcoach/features/authentication/presentation/blocs/sign_in_bloc/sign_in_bloc.dart';
 import 'package:mycookcoach/features/authentication/presentation/blocs/sign_up_bloc/sign_up_bloc.dart';
 import 'package:mycookcoach/features/authentication/presentation/blocs/user/user_bloc.dart';
+import 'package:mycookcoach/features/location_espace/data/repositories/location_repository_impl.dart';
+import 'package:mycookcoach/features/location_espace/domain/usecases/book_kitchen_usecase.dart';
+import 'package:mycookcoach/features/location_espace/domain/usecases/fetch_all_locations_usecase.dart';
+import 'package:mycookcoach/features/location_espace/domain/usecases/fetch_bookings_by_kitchen_id_usecase.dart';
+import 'package:mycookcoach/features/location_espace/domain/usecases/fetch_kitchens_by_local_id_usecase.dart';
+import 'package:mycookcoach/features/location_espace/presentation/blocs/location_bloc/location_bloc.dart';
 import 'package:mycookcoach/features/shop/data/repositories/cart_repository_impl.dart';
 import 'package:mycookcoach/features/shop/data/repositories/kitchen_item_repository_impl.dart';
+import 'package:mycookcoach/features/shop/data/repositories/order_repository_impl.dart';
 import 'package:mycookcoach/features/shop/domain/usecases/cart_items_usecase/add_cart_items_usecase.dart';
+import 'package:mycookcoach/features/shop/domain/usecases/cart_items_usecase/clear_cart_usecase.dart';
 import 'package:mycookcoach/features/shop/domain/usecases/cart_items_usecase/delete_cart_items_usecase.dart';
 import 'package:mycookcoach/features/shop/domain/usecases/cart_items_usecase/get_cart_items_by_user_id_and_product_id_usecase.dart';
 import 'package:mycookcoach/features/shop/domain/usecases/cart_items_usecase/get_cart_items_usecase.dart';
+import 'package:mycookcoach/features/shop/domain/usecases/cart_items_usecase/remove_cart_items_quantity_by_id_and_userid_usecase.dart';
+import 'package:mycookcoach/features/shop/domain/usecases/cart_items_usecase/update_cart_items_quantity_by_id_and_userid_usecase.dart';
 import 'package:mycookcoach/features/shop/domain/usecases/cart_items_usecase/update_cart_items_usecase.dart';
 import 'package:mycookcoach/features/shop/domain/usecases/kitchen_items_usecases/add_kitchen_items_usecase.dart';
 import 'package:mycookcoach/features/shop/domain/usecases/kitchen_items_usecases/delete_kitchen_items_usecase.dart';
 import 'package:mycookcoach/features/shop/domain/usecases/kitchen_items_usecases/get_kitchen_items_usecase.dart';
 import 'package:mycookcoach/features/shop/domain/usecases/kitchen_items_usecases/update_kitchen_items_usecase.dart';
+import 'package:mycookcoach/features/shop/domain/usecases/orders_usecases/create_order.dart';
+import 'package:mycookcoach/features/shop/domain/usecases/orders_usecases/load_orders_ues_case.dart';
 import 'package:mycookcoach/features/shop/presentation/blocs/cart_item_bloc/cart_items_bloc.dart';
 import 'package:mycookcoach/features/shop/presentation/blocs/kitchen_item_bloc/kitchen_item_bloc.dart';
+import 'package:mycookcoach/features/shop/presentation/blocs/orders_bloc/order_bloc.dart';
 
 List<BlocProvider> getAppBlocProviders() {
   final userRepository = FirebaseUserRepo();
@@ -125,6 +138,32 @@ List<BlocProvider> getAppBlocProviders() {
             GetCartItemByUserIdAndProductIdUseCase(
           cartRepository: CartRepositoryImpl(),
         ),
+        updateCartItemQuantityByIdAndUserIdUseCase:
+            UpdateCartItemQuantityByIdAndUserIdUseCase(
+          repository: CartRepositoryImpl(),
+        ),
+        removeCartItemByIdAndUserIdUseCase: RemoveCartItemByIdAndUserIdUseCase(
+          repository: CartRepositoryImpl(),
+        ),
+        clearCartUseCase: ClearCartUseCase(repository: CartRepositoryImpl()),
+      ),
+    ),
+    BlocProvider<PurchaseBloc>(
+      create: (_) => PurchaseBloc(
+        createOrderUseCase: CreateOrderUesCase(
+          OrderRepositoryImpl(),
+        ),
+        loadOrdersUesCase: LoadOrdersUesCase(
+          repository: OrderRepositoryImpl(),
+        ),
+      ),
+    ),
+    BlocProvider<LocationBloc>(
+      create: (_) => LocationBloc(
+        fetchAllLocalsUseCase: FetchAllLocalsUseCase(LocationRepositoryImpl()),
+        fetchKitchensByLocalIdUseCase: FetchKitchensByLocalIdUseCase(LocationRepositoryImpl()),
+        bookKitchenUseCase: BookKitchenUseCase(LocationRepositoryImpl()),
+        fetchBookingsByKitchenIdUseCase: FetchBookingsByKitchenIdUseCase(LocationRepositoryImpl()),
       ),
     ),
   ];

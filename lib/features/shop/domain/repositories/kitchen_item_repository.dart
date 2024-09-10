@@ -5,4 +5,5 @@ abstract class KitchenItemRepository {
   Future<void> addKitchenItem(KitchenItemEntity item);
   Future<void> updateKitchenItem(KitchenItemEntity item);
   Future<void> deleteKitchenItem(String itemId);
+  Future<List<KitchenItemEntity>> fetchKitchenItemsByCategory(String category);
 }

@@ -47,10 +47,15 @@ class ProductTitleWithImage extends StatelessWidget {
               Expanded(
                 child: Hero(
                   tag: "${product.id}",
-                  child: Image.network(
+                  child: product.imageUrl.isNotEmpty
+                      ? Image.network(
                     product.imageUrl,
                     fit: BoxFit.fill,
-                  ),
+                    errorBuilder: (context, error, stackTrace) {
+                      return Image.asset("assets/shop/images/chef_img.png");
+                    },
+                  )
+                      : Image.asset("assets/shop/images/chef_img.png"),
                 ),
               )
             ],

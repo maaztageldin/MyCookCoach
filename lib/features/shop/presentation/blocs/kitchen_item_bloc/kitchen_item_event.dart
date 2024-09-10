@@ -36,3 +36,9 @@ class DeleteKitchenItemEvent extends KitchenItemEvent {
   @override
   List<Object?> get props => [itemId];
 }
+
+class FetchKitchenItemsByCategoryEvent extends KitchenItemEvent {
+  final int categoryIndex;
+
+  FetchKitchenItemsByCategoryEvent({required this.categoryIndex});
+}

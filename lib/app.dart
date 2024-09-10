@@ -9,6 +9,8 @@ import 'package:mycookcoach/features/Notifications%20et%20alertes/presentation/p
 import 'package:mycookcoach/features/authentication/presentation/blocs/auth_blocs/auth_bloc.dart';
 import 'package:mycookcoach/features/authentication/presentation/blocs/auth_blocs/auth_state.dart';
 import 'package:mycookcoach/features/authentication/presentation/pages/welcome_screen.dart';
+import 'package:mycookcoach/features/location_espace/presentation/pages/location_screen.dart';
+import 'package:mycookcoach/features/shop/presentation/pages/orders_screen.dart';
 import 'package:mycookcoach/features/shop/presentation/pages/shop_screen.dart';
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
@@ -29,7 +31,7 @@ class MyApp extends StatelessWidget {
         GoRoute(
           path: '/home',
           builder: (context, state) =>
-              const /*ProfilePage(), EntryPoint(),  FormationScreen(), HomeRecipeScreen(),*/ ShopScreen(),
+              const /*EntryPoint(), ShopScreen(),  FormationScreen(), HomeRecipeScreen(),*/ LocationScreen(),
         ),
         GoRoute(
           path: '/notification',

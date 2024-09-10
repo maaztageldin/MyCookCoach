@@ -22,9 +22,9 @@ class KitchenItemEntity {
     this.rating = "0.0",
   });
 
-  factory KitchenItemEntity.fromDocument(QueryDocumentSnapshot<Map<String, dynamic>> doc) {
+  factory KitchenItemEntity.fromDocument(DocumentSnapshot<Map<String, dynamic>> doc) {
     return KitchenItemEntity(
-      id: doc['id'],
+      id: doc.id,
       name: doc['name'],
       category: doc['category'],
       description: doc['description'],
@@ -34,6 +34,7 @@ class KitchenItemEntity {
       rating: doc['rating'] ?? "0.0",
     );
   }
+
 
 
   Map<String, dynamic> toDocument() {
