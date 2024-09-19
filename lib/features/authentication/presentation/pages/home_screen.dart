@@ -30,8 +30,10 @@ class _HomeScreenState extends State<PrestationScreen> {
         padding: EdgeInsets.all(4),
         margin: EdgeInsets.symmetric(horizontal: 12, vertical: 16),
         decoration: const BoxDecoration(
-            borderRadius: BorderRadius.all(Radius.circular(24)),
-            color: Color(0xFFD3A984)),
+          borderRadius: BorderRadius.all(Radius.circular(24)),
+          color: Color(0xFF8B4513,
+          ),
+        ),
         child: BottomNavigationBar(
           backgroundColor: Colors.transparent,
           selectedItemColor: Colors.white,

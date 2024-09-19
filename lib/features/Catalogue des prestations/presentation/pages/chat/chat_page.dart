@@ -7,6 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mycookcoach/core/services/database_service.dart';
 import 'package:mycookcoach/core/services/media_service.dart';
 import 'package:mycookcoach/core/services/storage_service.dart';
+import 'package:mycookcoach/core/utils/constents.dart';
 import 'package:mycookcoach/core/utils/utils.dart';
 import 'package:mycookcoach/features/Catalogue%20des%20prestations/data/models/chat.dart';
 import 'package:mycookcoach/features/Catalogue%20des%20prestations/data/models/message.dart';
@@ -79,7 +80,7 @@ class _ChatPageState extends State<ChatPage> {
       },
       builder: (context, state) {
         if (state is UserLoading) {
-          return const Center(child: CircularProgressIndicator());
+          return const Center(child: CircularProgressIndicator(color: kMainColor));
         } else if (state is UserLoaded) {
           return Scaffold(
             appBar: AppBar(

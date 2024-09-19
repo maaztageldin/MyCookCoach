@@ -9,7 +9,7 @@ class LocationItemCard extends StatelessWidget {
     required this.press,
   }) : super(key: key);
 
-  final LocalEntity local; // LocalEntity à la place de KitchenItemEntity
+  final LocalEntity local;
   final VoidCallback press;
 
   @override
@@ -20,39 +20,41 @@ class LocationItemCard extends StatelessWidget {
         width: double.infinity,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(16),
-          color: Colors.white, // Fond blanc
+          color: Colors.white,
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Expanded(
               child: Container(
-                padding: const EdgeInsets.all(kDefaultPaddin),
+                height: 480,
+                width: 480,
                 decoration: BoxDecoration(
-                  color: const Color(0xFFD3A984),
                   borderRadius: BorderRadius.circular(16),
-                ),
-                child: Hero(
-                  tag: "${local.id}",
-                  // Pour l'image, ici tu peux ajouter un champ image dans LocalEntity si tu en as
-                  child: Image.asset(
-                    "assets/shop/images/chef_img.png", // Placeholder pour local
-                    fit: BoxFit.cover, // S'assurer que l'image est bien ajustée
+                  image: DecorationImage(
+                    image: local.imageUrl.isNotEmpty
+                        ? NetworkImage(local.imageUrl)
+                        : AssetImage("assets/shop/images/chef_img.png")
+                            as ImageProvider,
+                    // Sinon utilise l'image locale
+                    fit: BoxFit.cover,
                   ),
                 ),
               ),
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(vertical: kDefaultPaddin / 4),
+              padding: const EdgeInsets.symmetric(
+                  vertical: kDefaultPaddin / 4, horizontal: kDefaultPaddin / 4),
               child: Text(
-                local.name, // Affichage du nom du local
+                local.name,
                 style: const TextStyle(color: kTextLightColor),
               ),
             ),
             Padding(
-              padding: const EdgeInsets.only(bottom: kDefaultPaddin / 2),
+              padding:
+                  const EdgeInsets.symmetric(horizontal: kDefaultPaddin / 4),
               child: Text(
-                local.address, // Affichage de l'adresse du local
+                local.address,
                 style: const TextStyle(color: kTextColor),
               ),
             ),
@@ -62,4 +64,3 @@ class LocationItemCard extends StatelessWidget {
     );
   }
 }
-

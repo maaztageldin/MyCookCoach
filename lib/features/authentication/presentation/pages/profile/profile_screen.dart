@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:mycookcoach/core/utils/constents.dart';
 import 'package:mycookcoach/features/authentication/data/repositories/firebase_user_repo.dart';
 import 'package:mycookcoach/features/authentication/domain/entities/user_entity.dart';
 import 'package:mycookcoach/features/authentication/presentation/blocs/user/user_bloc.dart';
@@ -37,9 +38,9 @@ class _ProfilePageState extends State<ProfilePage> {
         listener: (context, state) {
           if (state is UserUpdateSuccess) {
             ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
+              const SnackBar(
                 content: Text('Profil mis à jour avec succès'),
-                backgroundColor: Color(0xFF8B4513).withOpacity(0.8),
+                backgroundColor: Color(0xFF8B4513),
               ),
             );
             context
@@ -57,7 +58,7 @@ class _ProfilePageState extends State<ProfilePage> {
         },
         builder: (context, state) {
           if (state is UserLoading) {
-            return const Center(child: CircularProgressIndicator());
+            return const Center(child: CircularProgressIndicator(color: kMainColor));
           } else if (state is UserLoaded) {
             return UserDetails(user: state.user);
           } else if (state is UserErrorState) {
@@ -106,7 +107,7 @@ class UserDetailsState extends State<UserDetails> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFF8B4513).withOpacity(0.8),
+      backgroundColor: const Color(0xFF8B4513),//Color(0xFF8B4513).withOpacity(0.8),
 
       //backgroundColor: Color(0xFFf8f8f8),
       appBar: AppBar(

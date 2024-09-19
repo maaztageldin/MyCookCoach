@@ -31,7 +31,7 @@ List<Product> products = [
       size: 8,
       description: dummyText,
       image: "assets/shop/images/bag_2.png",
-      color: const Color(0xFFD3A984)),
+      color: const Color(0xFF8B4513)),
   Product(
       id: 3,
       title: "Hang Top",

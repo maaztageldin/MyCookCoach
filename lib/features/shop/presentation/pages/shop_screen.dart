@@ -90,7 +90,7 @@ class _ShopScreenState extends State<ShopScreen> {
         },
         builder: (context, state) {
           if (state is KitchenItemLoadingState) {
-            return const Center(child: CircularProgressIndicator());
+            return const Center(child: CircularProgressIndicator(color: kMainColor));
           } else if (state is KitchenItemLoadedState) {
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -99,7 +99,7 @@ class _ShopScreenState extends State<ShopScreen> {
                   padding:
                       const EdgeInsets.symmetric(horizontal: kDefaultPaddin),
                   child: Text(
-                    "Equiper ta Cuisine",
+                    "Equipe ta Cuisine",
                     style: Theme.of(context)
                         .textTheme
                         .titleLarge!

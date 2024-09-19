@@ -5,6 +5,7 @@ class BookingEntity {
   final String localId;
   final DateTime startDate;
   final DateTime endDate;
+  final int price;
 
   BookingEntity({
     required this.id,
@@ -13,6 +14,7 @@ class BookingEntity {
     required this.localId,
     required this.startDate,
     required this.endDate,
+    required this.price,
   });
 
   Map<String, dynamic> toDocument() {
@@ -23,6 +25,7 @@ class BookingEntity {
       'localId': localId,
       'startDate': startDate.toIso8601String(),
       'endDate': endDate.toIso8601String(),
+      'price': price,
     };
   }
 
@@ -34,6 +37,7 @@ class BookingEntity {
       localId: doc['localId'],
       startDate: DateTime.parse(doc['startDate']),
       endDate: DateTime.parse(doc['endDate']),
+      price: doc['price']
     );
   }
 }

@@ -11,13 +11,11 @@ class FavoriteRepositoryImpl implements FavoriteRepository {
   @override
   ResultFuture<void> addFavorite(FavoriteEntity favorite) async {
     try {
-      final docRef = _firestore
+      await _firestore
           .collection('favorites')
-          .doc(favorite.userId)
-          .collection('userFavorites')
-          .doc(favorite.recipeId);
+          .doc(favorite.id)
+          .set(favorite.toDocument());
 
-      await docRef.set(favorite.toDocument());
       print("Favorite added: ${favorite.recipeId} for user ${favorite.userId}");
       return const Right(null);
     } catch (e) {
@@ -37,23 +35,22 @@ class FavoriteRepositoryImpl implements FavoriteRepository {
   @override
   ResultVoid removeFavorite(String userId, String recipeId) async {
     try {
-      final docRef = _firestore
+      QuerySnapshot favoriteSnapshot = await _firestore
           .collection('favorites')
-          .doc(userId)
-          .collection('userFavorites')
-          .doc(recipeId);
+          .where('userId', isEqualTo: userId)
+          .where('recipeId', isEqualTo: recipeId)
+          .get();
 
-      // Log pour vérifier si le document existe avant de le supprimer
-      final docSnapshot = await docRef.get();
-      if (docSnapshot.exists) {
-        await docRef.delete();
+      if (favoriteSnapshot.docs.isNotEmpty) {
+        await _firestore
+            .collection('favorites')
+            .doc(favoriteSnapshot.docs.first.id)
+            .delete();
         print("Favorite removed: $recipeId for user $userId");
         return const Right(null);
       } else {
-        print("Document not found: $recipeId for user $userId");
-        return Left(FireBaseFailure(
-            message: "Document not found: $recipeId for user $userId",
-            statusCode: 404));
+        print("Favorite not found for user: $userId and recipe: $recipeId");
+        return const Right(null);
       }
     } catch (e) {
       print("Error removing favorite: ${e.toString()}");
@@ -72,20 +69,19 @@ class FavoriteRepositoryImpl implements FavoriteRepository {
   @override
   ResultFuture<List<FavoriteEntity>> getFavorites(String userId) async {
     try {
-      final snapshot = await _firestore
+      QuerySnapshot favoritesSnapshot = await _firestore
           .collection('favorites')
-          .doc(userId)
-          .collection('userFavorites')
+          .where('userId', isEqualTo: userId)
           .get();
 
-      final favorites = snapshot.docs.map((doc) {
-        return FavoriteEntity.fromDocument(doc.data() as Map<String, dynamic>);
-      }).toList();
+      List<FavoriteEntity> favorites = favoritesSnapshot.docs
+          .map((doc) => FavoriteEntity.fromDocument(doc))
+          .toList();
 
-      print("Favorites fetched for user $userId: ${favorites.length}");
+      print("Favorites fetched for user: $userId");
       return Right(favorites);
     } catch (e) {
-      print("Error fetching favorites: ${e.toString()}");
+      print("Error fetching favorites for user $userId: ${e.toString()}");
       if (e is FirebaseException) {
         return Left(FireBaseFailure(
             message: e.message ?? "Failed to fetch favorites: ${e.toString()}",

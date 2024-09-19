@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mycookcoach/core/services/database_service.dart';
 import 'package:mycookcoach/core/utils/chat_utile.dart';
+import 'package:mycookcoach/core/utils/constents.dart';
 import 'package:mycookcoach/features/Catalogue%20des%20prestations/domain/entities/home_recipe_entity.dart';
 import 'package:mycookcoach/features/Catalogue%20des%20prestations/presentation/pages/chat/message_list_page.dart';
 import 'package:mycookcoach/features/authentication/data/repositories/firebase_user_repo.dart';
@@ -79,14 +80,18 @@ class RecipeDetailPage extends StatelessWidget {
         ],
       ),
       body: ListView(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(12.0),
         children: [
           // Main Image
-          Center(
-            child: Image.network(
-              recipe.image,
-              height: 500,
-              fit: BoxFit.cover,
+          Container(
+            height: 480,
+            width: 220,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(16),
+              image: DecorationImage(
+                image: NetworkImage(recipe.image),
+                fit: BoxFit.cover,
+              ),
             ),
           ),
           const SizedBox(height: 18),
@@ -103,9 +108,9 @@ class RecipeDetailPage extends StatelessWidget {
           ),
           const SizedBox(height: 8),
           // Recipe Details
-          Text(
-            "Descriptions",
-            style: Theme.of(context).textTheme.titleMedium,
+          const Text(
+            "Descriptions : ",
+            style: TextStyle(color: kTextColor, fontWeight: FontWeight.bold)
           ),
           const SizedBox(height: 8),
 
@@ -119,6 +124,7 @@ class RecipeDetailPage extends StatelessWidget {
                     recipe.chef,
                     maxLines: 3,
                     overflow: TextOverflow.ellipsis,
+                    style: TextStyle(color: kTextLightColor),
                   ),
                 ],
               ),
@@ -131,6 +137,7 @@ class RecipeDetailPage extends StatelessWidget {
                     recipe.duration,
                     maxLines: 3,
                     overflow: TextOverflow.ellipsis,
+                    style: TextStyle(color: kTextLightColor),
                   ),
                   const SizedBox(width: 24),
                   Icon(Icons.people_outline_outlined),
@@ -139,14 +146,15 @@ class RecipeDetailPage extends StatelessWidget {
                     recipe.serving,
                     maxLines: 3,
                     overflow: TextOverflow.ellipsis,
+                    style: TextStyle(color: kTextLightColor),
                   ),
                 ],
               ),
             ],
           ),
 
-          const SizedBox(height: 8),
-          Text(recipe.description),
+          const SizedBox(height: 12),
+          Text(recipe.description, style: TextStyle(color: kTextColor,)),
           const SizedBox(height: 45),
         ],
       ),

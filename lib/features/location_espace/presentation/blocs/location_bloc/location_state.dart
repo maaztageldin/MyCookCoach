@@ -2,7 +2,7 @@
 
 import 'package:equatable/equatable.dart';
 import 'package:mycookcoach/features/location_espace/domain/entities/booking_entity.dart';
-import 'package:mycookcoach/features/location_espace/domain/entities/kitchen_entity.dart';
+import 'package:mycookcoach/features/location_espace/domain/entities/kitchen_location_entity.dart';
 import 'package:mycookcoach/features/location_espace/domain/entities/local_entity.dart';
 
 abstract class LocationState extends Equatable {
@@ -33,7 +33,7 @@ class LocalsLoaded extends LocationState {
 }
 
 class KitchensLoaded extends LocationState {
-  final List<KitchenEntity> kitchens;
+  final List<KitchenLocationEntity> kitchens;
 
   KitchensLoaded(this.kitchens);
 

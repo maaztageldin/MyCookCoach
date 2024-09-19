@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mycookcoach/core/utils/constents.dart';
 import 'package:mycookcoach/features/authentication/data/repositories/firebase_user_repo.dart';
 import 'package:mycookcoach/features/shop/domain/entities/cart_item_entity.dart';
 import 'package:mycookcoach/features/shop/domain/entities/kitchen_item_entity.dart';
@@ -26,7 +27,7 @@ class CartBottomSheet {
           builder: (context, state) {
             if (state is CartLoadingState) {
               return const Center(
-                child: CircularProgressIndicator(),
+                child: CircularProgressIndicator(color: kMainColor),
               );
             } else if (state is CartsLoadedState && state.items.isNotEmpty) {
               return _buildCartContent(context, state.items);
@@ -111,7 +112,7 @@ class CartBottomSheet {
                       children: [
                         IconButton(
                           icon: const Icon(Icons.remove,
-                              size: 18, color: Color(0xFFD3A984)),
+                              size: 18, color: kMainColor),
                           onPressed: () {
                             int newQuantity = items[index].quantity - 1;
                             if (newQuantity > 0) {
@@ -134,7 +135,7 @@ class CartBottomSheet {
                         ),
                         IconButton(
                           icon: const Icon(Icons.add,
-                              size: 18, color: Color(0xFFD3A984)),
+                              size: 18, color: kMainColor),
                           onPressed: () async {
                             int? stockQuantity = await shopService
                                 .getStockQuantity(items[index].id);
@@ -156,7 +157,7 @@ class CartBottomSheet {
                         ),
                         IconButton(
                           icon: const Icon(Icons.delete,
-                              size: 18, color: Color(0xFFD3A984)),
+                              size: 18, color: kMainColor),
                           onPressed: () {
                             context.read<CartBloc>().add(
                                   RemoveCartItemByIdAndUserIdEvent(
@@ -189,7 +190,7 @@ class CartBottomSheet {
               ShowPurchaseModal(context, products, userId);
             },
             style: ElevatedButton.styleFrom(
-              backgroundColor: const Color(0xFFD3A984),
+              backgroundColor: kMainColor,
               minimumSize: const Size(double.infinity, 48),
             ),
             child: const Text(
@@ -241,7 +242,7 @@ class CartBottomSheet {
             style: const TextStyle(
                 fontWeight: FontWeight.bold, color: Colors.white),
           ),
-          backgroundColor: Color(0xFFD3A984),
+          backgroundColor: kMainColor,
           actions: <Widget>[
             TextButton(
               onPressed: () {

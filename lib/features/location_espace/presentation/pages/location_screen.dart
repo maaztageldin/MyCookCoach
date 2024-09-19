@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mycookcoach/core/utils/constents.dart';
-import 'package:mycookcoach/features/location_espace/domain/entities/local_entity.dart';
 import 'package:mycookcoach/features/authentication/data/repositories/firebase_user_repo.dart';
 import 'package:mycookcoach/features/location_espace/presentation/blocs/location_bloc/location_bloc.dart';
 import 'package:mycookcoach/features/location_espace/presentation/blocs/location_bloc/location_event.dart';
 import 'package:mycookcoach/features/location_espace/presentation/blocs/location_bloc/location_state.dart';
 import 'package:mycookcoach/features/location_espace/presentation/components/location_item-card.dart';
+import 'package:mycookcoach/features/location_espace/presentation/pages/kitchen_screen.dart';
+import 'package:mycookcoach/features/location_espace/presentation/pages/my_reservations_screen.dart';
 
 class LocationScreen extends StatefulWidget {
   const LocationScreen({Key? key}) : super(key: key);
@@ -27,9 +28,35 @@ class _LocationScreenState extends State<LocationScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
+        /*title: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Text(
+            'Louer un espace',
+            style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black87,
+                ),
+          ),
+        ),
         backgroundColor: Colors.white,
         elevation: 0,
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => MyReservationsScreen()),
+              );
+            },
+            child: const Text(
+              "Mes Réservations",
+              style: TextStyle(color: kTextLightColor),
+            ),
+          ),
+        ],*/
       ),
       body: BlocConsumer<LocationBloc, LocationState>(
         listener: (context, state) {
@@ -44,43 +71,63 @@ class _LocationScreenState extends State<LocationScreen> {
         },
         builder: (context, state) {
           if (state is LocationLoading) {
-            return const Center(child: CircularProgressIndicator());
+            return const Center(child: CircularProgressIndicator(color: kMainColor));
           } else if (state is LocalsLoaded && state.locals.isNotEmpty) {
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
+
                 Padding(
-                  padding:
-                  const EdgeInsets.symmetric(horizontal: kDefaultPaddin),
-                  child: Text(
-                    "Equiper ta Cuisine",
-                    style: Theme.of(context)
-                        .textTheme
-                        .titleLarge!
-                        .copyWith(fontWeight: FontWeight.bold),
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                    children: [
+                      Text(
+                          'Louer un espace',
+                          style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black87,
+                          ),
+                        ),
+                      Spacer(),
+                      TextButton(
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => MyReservationsScreen()),
+                          );
+                        },
+                        child: const Text(
+                          "Mes Réservations",
+                          style: TextStyle(color: kTextLightColor),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
+
+                const SizedBox(height: 10),
                 Expanded(
                   child: Padding(
                     padding: const EdgeInsets.symmetric(
-                      horizontal: kDefaultPaddin,
+                      horizontal: kDefaultPaddin / 2,
                     ),
                     child: GridView.builder(
-                      itemCount: state.locals.length, //products.length,
+                      itemCount: state.locals.length,
                       gridDelegate:
-                      const SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2,
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 1,
                         mainAxisSpacing: kDefaultPaddin,
                         crossAxisSpacing: kDefaultPaddin,
-                        childAspectRatio: 0.75,
+                        childAspectRatio: 1,
                       ),
                       itemBuilder: (context, index) => LocationItemCard(
-                        local: state.locals[index], // products[index],
+                        local: state.locals[index],
                         press: () => Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => KitchenScreen(
-                              localId: state.locals[index].id,
+                            builder: (context) => KitchenLocationScreen(
+                              kitchenIds: state.locals[index].kitchens,
                             ),
                           ),
                         ),
@@ -96,24 +143,6 @@ class _LocationScreenState extends State<LocationScreen> {
             );
           }
         },
-      ),
-    );
-  }
-}
-
-class KitchenScreen extends StatelessWidget {
-  final String localId;
-
-  const KitchenScreen({Key? key, required this.localId}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("Cuisines pour le local $localId"),
-      ),
-      body: const Center(
-        child: Text("Liste des cuisines pour ce local"),
       ),
     );
   }

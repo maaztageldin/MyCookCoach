@@ -45,14 +45,14 @@ class AddToCart extends StatelessWidget {
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(18),
         border: Border.all(
-          color: const Color(0xFFD3A984),
+          color: kMainColor,
         ),
       ),
       child: IconButton(
         icon: SvgPicture.asset(
           "assets/shop/icons/add_to_cart.svg",
           colorFilter:
-          const ColorFilter.mode(Color(0xFFD3A984), BlendMode.srcIn),
+          const ColorFilter.mode(kMainColor, BlendMode.srcIn),
         ),
         onPressed: () async {
           await _handleAddToCart(context, userId);
@@ -70,7 +70,7 @@ class AddToCart extends StatelessWidget {
       context.read<CartBloc>().add(AddCartItemEvent(item: cartItem));
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          backgroundColor: const Color(0xFFD3A984),
+          backgroundColor: kMainColor,
           content: Text(
             'Vous avez ajouté $quantity ${product.name} au panier',
             style: const TextStyle(fontWeight: FontWeight.bold),
@@ -80,7 +80,7 @@ class AddToCart extends StatelessWidget {
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          backgroundColor: const Color(0xFFD3A984),
+          backgroundColor: kMainColor,
           content: Text(
             'Désolé, seulement $stockQuantity ${product.name} est disponible en stock.',
             style: const TextStyle(

@@ -26,7 +26,7 @@ class StripeService {
     }
   }
 
-  Future<void> enrollUserFormation(BuildContext context, String userId,
+  Future<bool> enrollUserFormation(BuildContext context, String userId,
       String formationId, int amount) async {
     try {
       bool paymentSuccess = await makePayment(context, amount);
@@ -51,11 +51,14 @@ class StripeService {
           ),
         );
       }
+      return paymentSuccess;
+      //return false;
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Erreur: $e')),
       );
     }
+    return false;
   }
 
   Future<bool> makePayment(BuildContext context, int amount) async {

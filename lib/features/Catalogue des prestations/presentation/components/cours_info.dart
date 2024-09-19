@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mycookcoach/core/utils/constents.dart';
 import 'package:mycookcoach/features/Catalogue%20des%20prestations/domain/entities/home_recipe_entity.dart';
 import 'package:mycookcoach/features/Catalogue%20des%20prestations/presentation/blocs/favorite_blocs/favorite_bloc.dart';
 import 'package:mycookcoach/features/Catalogue%20des%20prestations/presentation/blocs/favorite_blocs/favorite_event.dart';
@@ -56,7 +57,7 @@ class _RecipeInfoState extends State<RecipeInfo> {
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 24),
                     child: Text(
-                      "Hello " + widget.user.firstName!,
+                      widget.user.firstName! + " " + widget.user.lastName!,
                       style: Theme.of(context)
                           .textTheme
                           .titleLarge
@@ -81,10 +82,6 @@ class _RecipeInfoState extends State<RecipeInfo> {
                           "Dessert",
                           style: Theme.of(context).textTheme.titleMedium,
                         ),
-                        /*TextButton(
-                          onPressed: () {},
-                          child: const Text("Voir Tout"),
-                        )*/
                       ],
                     ),
                   ),
@@ -127,10 +124,6 @@ class _RecipeInfoState extends State<RecipeInfo> {
                           "Plats",
                           style: Theme.of(context).textTheme.titleMedium,
                         ),
-                        /*TextButton(
-                          onPressed: () {},
-                          child: const Text("Voir Tout"),
-                        )*/
                       ],
                     ),
                   ),
@@ -168,7 +161,8 @@ class _RecipeInfoState extends State<RecipeInfo> {
             ),
           );
         } else {
-          return const Center(child: CircularProgressIndicator());
+          return const Center(
+              child: CircularProgressIndicator(color: kMainColor));
         }
       },
     );
@@ -186,18 +180,18 @@ class RecipeItem extends StatefulWidget {
 }
 
 class _RecipeItemState extends State<RecipeItem> {
+  bool isFavorite = false;
 
   @override
   void initState() {
     super.initState();
     context.read<FavoriteBloc>().add(GetFavorites(widget.userId));
   }
+
   @override
   Widget build(BuildContext context) {
-
     return BlocBuilder<FavoriteBloc, FavoriteState>(
       builder: (context, state) {
-        bool isFavorite = false;
         if (state is FavoriteLoaded) {
           isFavorite = state.favorites
               .any((favorite) => favorite.recipeId == widget.recipe.id);
@@ -214,7 +208,7 @@ class _RecipeItemState extends State<RecipeItem> {
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(16),
                   image: DecorationImage(
-                    image: AssetImage(widget.recipe.image),
+                    image: NetworkImage(widget.recipe.image),
                     fit: BoxFit.cover,
                   ),
                 ),
@@ -224,10 +218,7 @@ class _RecipeItemState extends State<RecipeItem> {
                 left: 8,
                 child: ClipRRect(
                   child: BackdropFilter(
-                    filter: ImageFilter.blur(
-                      sigmaX: 5,
-                      sigmaY: 5,
-                    ),
+                    filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
                     child: Container(
                       padding: const EdgeInsets.all(8),
                       decoration: BoxDecoration(
@@ -251,10 +242,7 @@ class _RecipeItemState extends State<RecipeItem> {
                 right: 8,
                 child: ClipRRect(
                   child: BackdropFilter(
-                    filter: ImageFilter.blur(
-                      sigmaX: 5,
-                      sigmaY: 5,
-                    ),
+                    filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
                     child: Container(
                       padding: const EdgeInsets.all(8),
                       decoration: BoxDecoration(
@@ -280,15 +268,20 @@ class _RecipeItemState extends State<RecipeItem> {
                               const SizedBox(width: 16),
                               GestureDetector(
                                 onTap: () {
-                                  if (isFavorite) {
-                                    context.read<FavoriteBloc>().add(
-                                        RemoveFavorite(
-                                            widget.recipe.id, widget.userId));
-                                  } else {
-                                    context.read<FavoriteBloc>().add(
-                                        AddFavorite(widget.recipe.id, 'recipe',
-                                            widget.userId));
-                                  }
+                                  setState(() {
+                                    if (isFavorite) {
+                                      context.read<FavoriteBloc>().add(
+                                          RemoveFavorite(
+                                              widget.recipe.id, widget.userId));
+                                      isFavorite = true;
+                                    } else {
+                                      context.read<FavoriteBloc>().add(
+                                          AddFavorite(widget.recipe.id,
+                                              'recipe', widget.userId));
+                                      isFavorite = false;
+                                    }
+                                    isFavorite = !isFavorite;
+                                  });
                                 },
                                 child: Icon(
                                   isFavorite
@@ -297,7 +290,7 @@ class _RecipeItemState extends State<RecipeItem> {
                                   size: 25,
                                   color: Colors.white,
                                 ),
-                              )
+                              ),
                             ],
                           ),
                           const SizedBox(height: 8),

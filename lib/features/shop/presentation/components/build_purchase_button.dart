@@ -1,10 +1,8 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mycookcoach/core/services/payment_service/stripe_service.dart';
-import 'package:mycookcoach/features/shop/data/repositories/order_repository_impl.dart';
+import 'package:mycookcoach/core/utils/constents.dart';
 import 'package:mycookcoach/features/shop/domain/entities/kitchen_item_entity.dart';
-import 'package:mycookcoach/features/shop/domain/usecases/orders_usecases/create_order.dart';
 import 'package:mycookcoach/features/shop/infrastructure/shop_service.dart';
 import 'package:mycookcoach/features/shop/presentation/blocs/cart_item_bloc/cart_items_bloc.dart';
 import 'package:mycookcoach/features/shop/presentation/blocs/cart_item_bloc/cart_items_event.dart';
@@ -23,14 +21,14 @@ Widget BuildPurchaseButton(
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
             content: Text('Paiement effectué avec succès!'),
-            backgroundColor: Color(0xFFD3A984),
+            backgroundColor: Color(0xFF8B4513),
           ),
         );
       } else if (state is PurchaseFailure) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(state.error),
-            backgroundColor: Color(0xFFD3A984),
+            backgroundColor: const Color(0xFF8B4513),
           ),
         );
       }
@@ -46,7 +44,7 @@ Widget BuildPurchaseButton(
               allProductsAvailable = false;
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
-                  backgroundColor: const Color(0xFFD3A984),
+                  backgroundColor: const Color(0xFF8B4513),
                   content: Text(
                     'Désolé, seulement $stockQuantity ${product.key.name} est disponible en stock.',
                     style: const TextStyle(
@@ -66,7 +64,7 @@ Widget BuildPurchaseButton(
           minimumSize: const Size(double.infinity, 48),
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
-          backgroundColor: const Color(0xFFD3A984),
+          backgroundColor: const Color(0xFF8B4513),
         ),
         child: Text(
           "Acheter".toUpperCase(),
@@ -206,85 +204,84 @@ Column _buildAddressFormFields(
   );
 }
 
-ElevatedButton _buildPaymentButton(
-  BuildContext context,
-  GlobalKey<FormState> formKey,
-  Map<KitchenItemEntity, int> products,
-  String userId,
-  TextEditingController fullNameController,
-  TextEditingController addressController,
-  TextEditingController cityController,
-  TextEditingController postalCodeController,
-) {
+Widget _buildPaymentButton(
+    BuildContext context,
+    GlobalKey<FormState> formKey,
+    Map<KitchenItemEntity, int> products,
+    String userId,
+    TextEditingController fullNameController,
+    TextEditingController addressController,
+    TextEditingController cityController,
+    TextEditingController postalCodeController,
+    ) {
+  bool _isProcessingPayment = false;
+
   int totalPrice = products.entries
       .map((entry) => int.parse(entry.key.price) * entry.value)
       .reduce((value, element) => value + element);
 
-  return ElevatedButton(
-    onPressed: () async {
-      if (formKey.currentState!.validate()) {
-        bool paymentSuccess = await StripeService.instance.makePayment(
-          context,
-          totalPrice,
-        );
+  return StatefulBuilder(
+    builder: (context, setState) {
+      return Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: _isProcessingPayment
+            ? Center(child: const CircularProgressIndicator(color: kMainColor))
+            : ElevatedButton(
+          onPressed: () async {
+            if (formKey.currentState!.validate()) {
+              setState(() {
+                _isProcessingPayment = true;
+              });
 
-        if (paymentSuccess) {
-          int _orderNumberCounter = await shopService.getHighestOrderNumber();
+              bool paymentSuccess = await StripeService.instance
+                  .makePayment(context, totalPrice);
 
-          context.read<PurchaseBloc>().add(
-                PaymentConfirmed(
-                  userId: userId,
-                  products: products.map(
-                      (product, quantity) => MapEntry(product.id, quantity)),
-                  totalPrice: totalPrice,
-                  fullName: fullNameController.text,
-                  shippingAddress: addressController.text,
-                  city: cityController.text,
-                  postalCode: postalCodeController.text,
-                  orderNumber: _orderNumberCounter+1,
-                ),
-              );
+              if (paymentSuccess) {
+                int _orderNumberCounter =
+                await shopService.getHighestOrderNumber();
 
-          for (var product in products.entries) {
-            shopService.updateStockQuantity(
-              context,
-              product.key.id,
-              product.value,
-            );
-          }
+                context.read<PurchaseBloc>().add(
+                  PaymentConfirmed(
+                    userId: userId,
+                    products: products.map((product, quantity) =>
+                        MapEntry(product.id, quantity)),
+                    totalPrice: totalPrice,
+                    fullName: fullNameController.text,
+                    shippingAddress: addressController.text,
+                    city: cityController.text,
+                    postalCode: postalCodeController.text,
+                    orderNumber: _orderNumberCounter + 1,
+                  ),
+                );
 
-          context
-              .read<CartBloc>()
-              .add(ClearCartByUserIdAndProductIdEvent(userId: userId));
+                for (var product in products.entries) {
+                  shopService.updateStockQuantity(
+                      context, product.key.id, product.value);
+                }
 
-          Navigator.pop(context);
+                context.read<CartBloc>().add(
+                    ClearCartByUserIdAndProductIdEvent(userId: userId));
+              }
 
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              backgroundColor: Color(0xFFD3A984),
-              content: Text(
-                'Paiement effectué avec succès!',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              duration: Duration(seconds: 5),
+              setState(() {
+                _isProcessingPayment = false; // Arrête le spinner
+              });
+            }
+          },
+          style: ElevatedButton.styleFrom(
+            minimumSize: const Size(double.infinity, 48),
+            backgroundColor: kMainColor,
+          ),
+          child: Text(
+            'Payer $totalPrice€',
+            style: const TextStyle(
+              fontWeight: FontWeight.bold,
+              color: Colors.white,
             ),
-          );
-        }
-      }
+          ),
+        ),
+      );
     },
-    style: ElevatedButton.styleFrom(
-      minimumSize: const Size(double.infinity, 48),
-      backgroundColor: const Color(0xFFD3A984),
-    ),
-    child: Text(
-      'Payer $totalPrice€',
-      style: const TextStyle(
-        fontWeight: FontWeight.bold,
-        color: Colors.white,
-      ),
-    ),
   );
 }
+

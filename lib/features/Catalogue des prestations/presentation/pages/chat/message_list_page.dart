@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mycookcoach/core/utils/chat_utile.dart';
+import 'package:mycookcoach/core/utils/constents.dart';
 import 'package:mycookcoach/features/Catalogue%20des%20prestations/presentation/blocs/chat_blocs/chat_bloc.dart';
 import 'package:mycookcoach/features/Catalogue%20des%20prestations/presentation/blocs/chat_blocs/chat_event.dart';
 import 'package:mycookcoach/features/Catalogue%20des%20prestations/presentation/blocs/chat_blocs/chat_state.dart';
@@ -37,7 +38,7 @@ class _MessageListPageState extends State<MessageListPage> {
       builder: (context, state) {
         if (state is ChatLoading) {
           return const Center(
-            child: CircularProgressIndicator(),
+            child: CircularProgressIndicator(color: kMainColor),
           );
         } else if (state is ChatListLoaded) {
           return Scaffold(

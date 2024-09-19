@@ -33,7 +33,7 @@ class FavoriteBloc extends Bloc<FavoriteEvent, FavoriteState> {
 
     on<RemoveFavorite>((event, emit) async {
       try {
-        await removeFavoriteUseCase.call(event.recipeId, event.userId);
+        await removeFavoriteUseCase.call( event.userId, event.recipeId);
         emit(FavoriteRemoved(event.recipeId, event.userId));
       } catch (_) {
         emit(FavoriteError('Failed to remove favorite'));

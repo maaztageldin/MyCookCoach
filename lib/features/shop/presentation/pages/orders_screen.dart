@@ -46,7 +46,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
         },
         builder: (context, state) {
           if (state is PurchaseLoading) {
-            return const Center(child: CircularProgressIndicator());
+            return const Center(child: CircularProgressIndicator(color: kMainColor));
           } else if (state is OrdersLoaded) {
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,

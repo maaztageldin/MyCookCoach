@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 
 class FavoriteEntity extends Equatable {
@@ -36,14 +37,16 @@ class FavoriteEntity extends Equatable {
     };
   }
 
-  static FavoriteEntity fromDocument(Map<String, dynamic> doc) {
+  static FavoriteEntity fromDocument(QueryDocumentSnapshot doc) {
+    final data = doc.data() as Map<String, dynamic>;
     return FavoriteEntity(
-      id: doc['id'],
-      userId: doc['userId'],
-      recipeId: doc['recipeId'],
-      type: doc['type'],
+      id: data['id'],
+      userId: data['userId'],
+      recipeId: data['recipeId'],
+      type: data['type'],
     );
   }
+
 
   @override
   List<Object?> get props => [

@@ -14,19 +14,19 @@ class MenuBtn extends StatelessWidget {
         child: GestureDetector(
       onTap: press,
       child: Container(
-        margin: EdgeInsets.only(left: 16),
+        margin: EdgeInsets.only(left: 16,),
         height: 30,
         width: 30,
-        decoration: const BoxDecoration(
-            color: Colors.white,
+        decoration: BoxDecoration(
+            color: Colors.white.withOpacity(0.2),
             shape: BoxShape.circle,
-            boxShadow: [
+            /*boxShadow: [
               BoxShadow(
                 color: Colors.black12,
                 offset: Offset(0, 3),
                 blurRadius: 8,
               )
-            ]),
+            ]*/),
         child: RiveAnimation.asset(
           RiveIcon.sliderHorizontal.getRiveAsset().src,
           artboard: 'adjustments-horizontal',

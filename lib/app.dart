@@ -31,7 +31,7 @@ class MyApp extends StatelessWidget {
         GoRoute(
           path: '/home',
           builder: (context, state) =>
-              const /*EntryPoint(), ShopScreen(),  FormationScreen(), HomeRecipeScreen(),*/ LocationScreen(),
+              const /*EntryPoint(), ShopScreen(),  FormationScreen(), HomeRecipeScreen(),*/ EntryPoint(),
         ),
         GoRoute(
           path: '/notification',

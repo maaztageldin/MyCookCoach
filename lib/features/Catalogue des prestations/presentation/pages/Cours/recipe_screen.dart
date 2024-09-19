@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mycookcoach/core/utils/constents.dart';
 import 'package:mycookcoach/features/Catalogue%20des%20prestations/presentation/components/cours_info.dart';
 import 'package:mycookcoach/features/authentication/data/repositories/firebase_user_repo.dart';
 import 'package:mycookcoach/features/authentication/domain/entities/user_entity.dart';
@@ -41,7 +42,7 @@ class _HomeRecipeScreenState extends State<HomeRecipeScreen> {
         },
         builder: (context, state) {
           if (state is UserLoading) {
-            return const Center(child: CircularProgressIndicator());
+            return const Center(child: CircularProgressIndicator(color: kMainColor));
           } else if (state is UserLoaded) {
             user = state.user;
             return RecipeInfo(

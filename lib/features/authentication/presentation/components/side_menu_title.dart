@@ -20,7 +20,7 @@ class SideMenuTitle extends StatelessWidget {
     return Column(
       children: [
         const Padding(
-          padding: EdgeInsets.only(left: 24),
+          padding: EdgeInsets.only(left: 18, right: 10),
           child: Divider(
             color: Colors.white24,
             height: 1,
@@ -31,13 +31,15 @@ class SideMenuTitle extends StatelessWidget {
             AnimatedPositioned(
               duration: Duration(milliseconds: 300),
               height: 56,
-              width: isActive ? 288 : 0,
-              left: 0,
+              width: isActive ? 280 : 0,
+              left: 8,
               child: Container(
-                decoration: const BoxDecoration(
-                    //color: Color(0xFFD3A984),
-                    color: Color(0xFFF5F5F5),
-                    borderRadius: BorderRadius.all(Radius.circular(12))),
+                decoration: BoxDecoration(
+                  color: Color(0xFFF5F5F5).withOpacity(0.5),
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(12),
+                  ),
+                ),
               ),
             ),
             ListTile(
@@ -52,7 +54,9 @@ class SideMenuTitle extends StatelessWidget {
                   )),
               title: Text(
                 menu.title,
-
+                style: TextStyle(
+                  color: Colors.white,
+                ),
               ),
             ),
           ],

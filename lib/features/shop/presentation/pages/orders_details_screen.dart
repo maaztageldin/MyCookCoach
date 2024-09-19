@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:mycookcoach/core/utils/constents.dart';
 import 'package:mycookcoach/features/shop/domain/entities/order_entity.dart';
 import 'package:mycookcoach/features/shop/domain/entities/kitchen_item_entity.dart';
 import 'package:mycookcoach/features/shop/infrastructure/shop_service.dart';
@@ -55,8 +56,8 @@ class _OrdersDetailsScreenState extends State<OrdersDetailsScreen> {
             color: Colors.black87,
           ),
         ),
-        backgroundColor: Colors.white, // AppBar blanche
-        elevation: 0, // Retire l'ombre
+        backgroundColor: Colors.white,
+        elevation: 0,
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -164,7 +165,7 @@ class _OrdersDetailsScreenState extends State<OrdersDetailsScreen> {
                 const SizedBox(height: 10),
               )
                   : const Center(
-                child: CircularProgressIndicator(),
+                child: CircularProgressIndicator(color: kMainColor),
               ),
             ),
           ],

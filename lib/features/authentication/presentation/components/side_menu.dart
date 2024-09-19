@@ -42,12 +42,12 @@ class _SideMenuState extends State<SideMenu> {
         builder: (context, state) {
           if (state is UserLoaded) {
             return Container(
-              color: const Color(0xFFD3A984),
+              color: const Color(0xFF8B4513),
               child: SafeArea(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const SizedBox(height: kDefaultPaddin/2),
+                    const SizedBox(height: kDefaultPaddin / 2),
                     InfoCard(
                       name: '${state.user.firstName} ${state.user.lastName}',
                       role: state.user.role!,
@@ -55,69 +55,72 @@ class _SideMenuState extends State<SideMenu> {
                     ),
                     Padding(
                       padding:
-                      const EdgeInsets.only(left: 24, top: 32, bottom: 16),
-                      child: Text(
-                        "Parcourir".toUpperCase(),
-                          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16,)
-                            //.copyWith(color: Colors.white70),
-                      ),
+                          const EdgeInsets.only(left: 24, top: 32, bottom: 16),
+                      child: Text("Parcourir".toUpperCase(),
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16,
+                            color: Colors.white,
+                          )
+                          //.copyWith(color: Colors.white70),
+                          ),
                     ),
-
                     ...sidMenu.map((menu) => SideMenuTitle(
-                      menu: menu,
-                      riveOnInit: (artboard) {
-                        StateMachineController controller =
-                        RiveUtil.getRiveController(artboard,
-                            stateMachineName: menu.stateMachineName!);
-                        menu.input =
-                        controller.findSMI("active") as SMIBool;
-                      },
-                      press: () {
-                        menu.input!.change(true);
-                        Future.delayed(const Duration(seconds: 1), () {
-                          menu.input!.change(false);
-                        });
-                        setState(() {
-                          selectedMenu = menu;
-                          widget.onMenuSelected(menu.title);
-                        });
-                      },
-                      isActive: selectedMenu == menu,
-                    )),
-
+                          menu: menu,
+                          riveOnInit: (artboard) {
+                            StateMachineController controller =
+                                RiveUtil.getRiveController(artboard,
+                                    stateMachineName: menu.stateMachineName!);
+                            menu.input =
+                                controller.findSMI("active") as SMIBool;
+                          },
+                          press: () {
+                            menu.input!.change(true);
+                            Future.delayed(const Duration(seconds: 1), () {
+                              menu.input!.change(false);
+                            });
+                            setState(() {
+                              selectedMenu = menu;
+                              widget.onMenuSelected(menu.title);
+                            });
+                          },
+                          isActive: selectedMenu == menu,
+                        )),
                     Padding(
                       padding:
-                      const EdgeInsets.only(left: 24, top: 42, bottom: 16),
-                      child: Text(
-                        "Historique".toUpperCase(),
-                        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16,)/* Theme.of(context)
+                          const EdgeInsets.only(left: 24, top: 42, bottom: 16),
+                      child: Text("Historique".toUpperCase(),
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16,
+                            color: Colors.white,
+                          ) /* Theme.of(context)
                             .textTheme
                             .titleMedium!*/
-                            //.copyWith(color: Colors.white70),
-                      ),
+                          //.copyWith(color: Colors.white70),
+                          ),
                     ),
-
                     ...sidMenu2.map((menu) => SideMenuTitle(
-                      menu: menu,
-                      riveOnInit: (Artboard artboard) {
-                        StateMachineController controller =
-                        RiveUtil.getRiveController(artboard,
-                            stateMachineName: menu.stateMachineName!);
-                        menu.input =
-                        controller.findSMI("active") as SMIBool;
-                      },
-                      press: () {
-                        menu.input!.change(true);
-                        Future.delayed(const Duration(seconds: 1), () {
-                          menu.input!.change(false);
-                        });
-                        setState(() {
-                          selectedMenu = menu;
-                          widget.onMenuSelected(menu.title);
-                        });
-                      },
-                      isActive: selectedMenu == menu,
-                    )),
+                          menu: menu,
+                          riveOnInit: (Artboard artboard) {
+                            StateMachineController controller =
+                                RiveUtil.getRiveController(artboard,
+                                    stateMachineName: menu.stateMachineName!);
+                            menu.input =
+                                controller.findSMI("active") as SMIBool;
+                          },
+                          press: () {
+                            menu.input!.change(true);
+                            Future.delayed(const Duration(seconds: 1), () {
+                              menu.input!.change(false);
+                            });
+                            setState(() {
+                              selectedMenu = menu;
+                              widget.onMenuSelected(menu.title);
+                            });
+                          },
+                          isActive: selectedMenu == menu,
+                        )),
                   ],
                 ),
               ),
@@ -126,10 +129,7 @@ class _SideMenuState extends State<SideMenu> {
             return Center(
               child: Text(
                 "Une erreur est survenue !".toUpperCase(),
-                style: Theme.of(context)
-                    .textTheme
-                    .titleMedium!
-                    ,
+                style: Theme.of(context).textTheme.titleMedium!,
               ),
             );
           }
@@ -138,7 +138,6 @@ class _SideMenuState extends State<SideMenu> {
     );
   }
 }
-
 
 List<RiveAsset> sidMenu = [
   RiveAsset(

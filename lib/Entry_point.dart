@@ -55,7 +55,7 @@ class _EntryPointState extends State<EntryPoint>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFD3A984),
+      backgroundColor: const Color(0xFF8B4513),
       resizeToAvoidBottomInset: false,
       extendBody: true,
       body: Stack(

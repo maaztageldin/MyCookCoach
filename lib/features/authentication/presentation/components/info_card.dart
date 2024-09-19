@@ -30,11 +30,11 @@ class InfoCard extends StatelessWidget {
       ),
       title: Text(
         name,
-        style: Theme.of(context).textTheme.titleMedium,
+        style: TextStyle(color: Colors.white,),
       ),
       subtitle: Text(
         role,
-        style: Theme.of(context).textTheme.titleSmall,
+        style: TextStyle(color: Colors.white,),
       ),
       onTap: () {
         Navigator.push(

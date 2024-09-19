@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mycookcoach/core/utils/constents.dart';
 import 'package:mycookcoach/features/Catalogue%20des%20prestations/presentation/blocs/formation_blocs/formation_bloc.dart';
 import 'package:mycookcoach/features/Catalogue%20des%20prestations/presentation/blocs/formation_blocs/formation_event.dart';
 import 'package:mycookcoach/features/Catalogue%20des%20prestations/presentation/blocs/formation_blocs/formation_state.dart';
@@ -41,27 +42,45 @@ class _FormationScreenState extends State<FormationScreen> {
         }
       },
       child: Scaffold(
+        backgroundColor: Colors.white,
         appBar: AppBar(
-          title: const Text('Formations Professionnelles'),
         ),
         body: BlocBuilder<FormationBloc, FormationState>(
           builder: (context, state) {
             if (state is FormationLoadingState) {
-              return const Center(child: CircularProgressIndicator());
+              return const Center(child: CircularProgressIndicator(color: kMainColor));
             } else if (state is FormationLoadedState) {
               if (!isUserLoaded) {
-                return const Center(child: CircularProgressIndicator());
+                return const Center(child: CircularProgressIndicator(color: kMainColor));
               }
               final formations = state.formations;
-              return ListView.builder(
-                itemCount: formations.length,
-                itemBuilder: (context, index) {
-                  final formation = formations[index];
-                  return FormationItem(
-                    formation: formation,
-                    user: user,
-                  );
-                },
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: Text(
+                      'Formations Professionnelles',
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+
+                  Expanded(
+                    child: ListView.builder(
+                      itemCount: formations.length,
+                      itemBuilder: (context, index) {
+                        final formation = formations[index];
+                        return FormationItem(
+                          formation: formation,
+                          user: user,
+                        );
+                      },
+                    ),
+                  ),
+                ],
               );
             } else {
               return const Center(

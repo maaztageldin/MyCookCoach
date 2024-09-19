@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mycookcoach/core/utils/app_field_style.dart';
+import 'package:mycookcoach/core/utils/constents.dart';
 import 'package:mycookcoach/features/authentication/data/models/user.dart';
 import 'package:mycookcoach/features/authentication/presentation/blocs/sign_up_bloc/sign_up_bloc.dart';
 
@@ -278,7 +279,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               ),
                             )),
                       )
-                    : const CircularProgressIndicator()
+                    : const CircularProgressIndicator(color: kMainColor,)
               ],
             ),
           ),

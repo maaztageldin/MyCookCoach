@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:mycookcoach/core/utils/constents.dart';
-import 'package:mycookcoach/features/shop/domain/entities/kitchen_item_entity.dart';
+import 'package:mycookcoach/features/location_espace/domain/entities/kitchen_location_entity.dart';
 
-class ItemCard extends StatelessWidget {
-  const ItemCard({super.key, required this.product, required this.press});
+class KitchenLocationCard extends StatelessWidget {
+  const KitchenLocationCard(
+      {super.key, required this.kitechen, required this.press});
 
-  final KitchenItemEntity product;
+  final KitchenLocationEntity kitechen;
   final VoidCallback press;
 
   @override
@@ -23,29 +24,29 @@ class ItemCard extends StatelessWidget {
                 //const Color(0xFF989493)//product.color,
                 borderRadius: BorderRadius.circular(16),
               ),
-              child: Hero(
+              /*child: Hero(
                 tag: "${product.id}",
                 child: product.imageUrl.isNotEmpty
                     ? Image.network(
-                        product.imageUrl,
-                        errorBuilder: (context, error, stackTrace) {
-                          return Image.asset("assets/shop/images/chef_img.png");
-                        },
-                      )
+                  product.imageUrl,
+                  errorBuilder: (context, error, stackTrace) {
+                    return Image.asset("assets/shop/images/chef_img.png");
+                  },
+                )
                     : Image.asset("assets/shop/images/chef_img.png"),
-              ),
+              ),*/
             ),
           ),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: kDefaultPaddin / 4),
             child: Text(
               // products is out demo list
-              product.name,
+              kitechen.name,
               style: const TextStyle(color: kTextLightColor),
             ),
           ),
           Text(
-            "\€${product.price}",
+            "\€${kitechen.priceH}",
             style: const TextStyle(fontWeight: FontWeight.bold),
           )
         ],
