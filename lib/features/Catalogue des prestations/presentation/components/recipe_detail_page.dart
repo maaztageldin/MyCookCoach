@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:mycookcoach/core/services/database_service.dart';
 import 'package:mycookcoach/core/utils/chat_utile.dart';
 import 'package:mycookcoach/core/utils/constents.dart';
@@ -12,15 +13,17 @@ class RecipeDetailPage extends StatelessWidget {
   RecipeDetailPage({Key? key, required this.recipe}) : super(key: key);
 
   final String currentUserId = FirebaseUserRepo().currentUser!.uid;
-  final DataBaseService _dataBaseService = DataBaseService();
+//  final DataBaseService _dataBaseService = DataBaseService();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-          icon: Icon(Icons.arrow_back),
-          onPressed: () => Navigator.of(context).pop(),
+          icon: SvgPicture.asset(
+            'assets/shop/icons/back.svg',
+          ),
+          onPressed: () => Navigator.pop(context),
         ),
         title: Text('recette'),
         actions: [

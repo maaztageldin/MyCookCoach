@@ -43,31 +43,29 @@ class _FormationScreenState extends State<FormationScreen> {
       },
       child: Scaffold(
         backgroundColor: Colors.white,
-        appBar: AppBar(
-        ),
+        appBar: AppBar(),
         body: BlocBuilder<FormationBloc, FormationState>(
           builder: (context, state) {
             if (state is FormationLoadingState) {
-              return const Center(child: CircularProgressIndicator(color: kMainColor));
+              return const Center(
+                  child: CircularProgressIndicator(color: kMainColor));
             } else if (state is FormationLoadedState) {
               if (!isUserLoaded) {
-                return const Center(child: CircularProgressIndicator(color: kMainColor));
+                return const Center(
+                    child: CircularProgressIndicator(color: kMainColor));
               }
               final formations = state.formations;
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Padding(
+                  Padding(
                     padding: EdgeInsets.all(8.0),
                     child: Text(
                       'Formations Professionnelles',
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                      ),
+                      style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                          fontWeight: FontWeight.bold, color: kMainColor),
                     ),
                   ),
-
                   Expanded(
                     child: ListView.builder(
                       itemCount: formations.length,

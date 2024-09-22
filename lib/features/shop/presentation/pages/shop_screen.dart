@@ -103,7 +103,7 @@ class _ShopScreenState extends State<ShopScreen> {
                     style: Theme.of(context)
                         .textTheme
                         .titleLarge!
-                        .copyWith(fontWeight: FontWeight.bold),
+                        .copyWith(fontWeight: FontWeight.bold, color: kMainColor),
                   ),
                 ),
                 Categories(onCategorySelected: _onCategorySelected),

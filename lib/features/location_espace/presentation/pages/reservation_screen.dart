@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
 import 'package:mycookcoach/core/services/notifications_service/send_mail_service.dart';
 import 'package:mycookcoach/core/services/payment_service/stripe_service.dart';
@@ -42,6 +43,12 @@ class _ReservationScreenState extends State<ReservationScreen> {
             fontWeight: FontWeight.bold,
             color: Colors.black87,
           ),
+        ),
+        leading: IconButton(
+          icon: SvgPicture.asset(
+            'assets/shop/icons/back.svg',
+          ),
+          onPressed: () => Navigator.pop(context),
         ),
         backgroundColor: Colors.white,
         elevation: 0,

@@ -83,11 +83,10 @@ class _LocationScreenState extends State<LocationScreen> {
                     children: [
                       Text(
                           'Louer un espace',
-                          style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.black87,
-                          ),
+                        style: Theme.of(context)
+                            .textTheme
+                            .titleLarge!
+                            .copyWith(fontWeight: FontWeight.bold, color: kMainColor),
                         ),
                       Spacer(),
                       TextButton(

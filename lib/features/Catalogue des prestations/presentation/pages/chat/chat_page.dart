@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dash_chat_2/dash_chat_2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:mycookcoach/core/services/database_service.dart';
 import 'package:mycookcoach/core/services/media_service.dart';
 import 'package:mycookcoach/core/services/storage_service.dart';
@@ -85,6 +86,12 @@ class _ChatPageState extends State<ChatPage> {
           return Scaffold(
             appBar: AppBar(
               title: Text(state.user.firstName!),
+              leading: IconButton(
+                icon: SvgPicture.asset(
+                  'assets/shop/icons/back.svg',
+                ),
+                onPressed: () => Navigator.pop(context),
+              ),
             ),
             body: _buildUI(),
           );

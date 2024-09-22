@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:mycookcoach/core/utils/chat_utile.dart';
 import 'package:mycookcoach/core/utils/constents.dart';
 import 'package:mycookcoach/features/Catalogue%20des%20prestations/presentation/blocs/chat_blocs/chat_bloc.dart';
@@ -44,6 +45,12 @@ class _MessageListPageState extends State<MessageListPage> {
           return Scaffold(
             appBar: AppBar(
               title: const Text("Chats"),
+              leading: IconButton(
+                icon: SvgPicture.asset(
+                  'assets/shop/icons/back.svg',
+                ),
+                onPressed: () => Navigator.pop(context),
+              ),
             ),
             body: ListView.builder(
               itemCount: state.chats.length,
@@ -55,8 +62,6 @@ class _MessageListPageState extends State<MessageListPage> {
                   userId: otherUserId,
                   onTap: () {
                     ChatUtils().startChat(context, widget.chefId, otherUserId, widget.recipeId);
-
-                    // Handle tap event here
                   },
                 );
               },
@@ -65,6 +70,12 @@ class _MessageListPageState extends State<MessageListPage> {
         } else if (state is ChatErrorState) {
           return Scaffold(
             appBar: AppBar(
+              leading: IconButton(
+                icon: SvgPicture.asset(
+                  'assets/shop/icons/back.svg',
+                ),
+                onPressed: () => Navigator.pop(context),
+              ),
               title: const Text("Chats"),
             ),
             body: Center(
