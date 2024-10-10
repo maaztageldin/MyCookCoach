@@ -8,4 +8,5 @@ abstract class HomeRecipeRepository {
   Future<Either<Failure, void>> updateHomeRecipe(HomeRecipeEntity recipe);
   Future<Either<Failure, void>> deleteHomeRecipe(String recipeId);
   Future<Either<Failure, List<HomeRecipeEntity>>> fetchAllHomeRecipes();
+  Future<Either<Failure, List<HomeRecipeEntity>>> getRecipesByIds(List<String> recipeIds);
 }

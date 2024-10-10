@@ -13,6 +13,7 @@ import 'package:mycookcoach/features/Catalogue%20des%20prestations/domain/usecas
 import 'package:mycookcoach/features/Catalogue%20des%20prestations/domain/usecases/home_recipe_usecase/delete_home_recipe_usecase.dart';
 import 'package:mycookcoach/features/Catalogue%20des%20prestations/domain/usecases/home_recipe_usecase/fetch_all_home_recipe_usecase.dart';
 import 'package:mycookcoach/features/Catalogue%20des%20prestations/domain/usecases/home_recipe_usecase/get_home_recipe_by_id_usecase.dart';
+import 'package:mycookcoach/features/Catalogue%20des%20prestations/domain/usecases/home_recipe_usecase/get_home_recipes_by_Ids_usecase.dart';
 import 'package:mycookcoach/features/Catalogue%20des%20prestations/domain/usecases/home_recipe_usecase/update_home_recipe_usecase.dart';
 import 'package:mycookcoach/features/Catalogue%20des%20prestations/presentation/blocs/chat_blocs/chat_bloc.dart';
 import 'package:mycookcoach/features/Catalogue%20des%20prestations/presentation/blocs/favorite_blocs/favorite_bloc.dart';
@@ -67,104 +68,131 @@ List<BlocProvider> getAppBlocProviders() {
       create: (_) => SignUpBloc(userRepository: userRepository),
     ),
     BlocProvider<UserBloc>(
-      create: (_) => UserBloc(
-        getUserByIdUseCase: GetUserByIdUseCase(FirebaseUserRepo()),
-        updateUserUseCase: UpdateUserUseCase(FirebaseUserRepo()),
-        fetchAllUsersUseCase: FetchAllUsersUseCase(FirebaseUserRepo()),
-      ),
+      create: (_) =>
+          UserBloc(
+            getUserByIdUseCase: GetUserByIdUseCase(FirebaseUserRepo()),
+            updateUserUseCase: UpdateUserUseCase(FirebaseUserRepo()),
+            fetchAllUsersUseCase: FetchAllUsersUseCase(FirebaseUserRepo()),
+          ),
     ),
     BlocProvider<HomeRecipeBloc>(
-      create: (context) => HomeRecipeBloc(
-        getHomeRecipeByIdUseCase:
+      create: (context) =>
+          HomeRecipeBloc(
+            getHomeRecipeByIdUseCase:
             GetHomeRecipeByIdUseCase(HomeRecipeRepositoryImpl()),
-        createHomeRecipeUseCase:
+            createHomeRecipeUseCase:
             CreateHomeRecipeUseCase(HomeRecipeRepositoryImpl()),
-        updateHomeRecipeUseCase:
+            updateHomeRecipeUseCase:
             UpdateHomeRecipeUseCase(HomeRecipeRepositoryImpl()),
-        deleteHomeRecipeUseCase:
+            deleteHomeRecipeUseCase:
             DeleteHomeRecipeUseCase(HomeRecipeRepositoryImpl()),
-        fetchAllHomeRecipesUseCase:
+            fetchAllHomeRecipesUseCase:
             FetchAllHomeRecipesUseCase(HomeRecipeRepositoryImpl()),
-      ),
+            getHomeRecipesByIdsUseCase: GetHomeRecipesByIdsUseCase(
+                HomeRecipeRepositoryImpl(),),
+          ),
     ),
     BlocProvider<ChatBloc>(
-      create: (_) => ChatBloc(
-        getChatListByRecipeAndChefUseCase: GetChatListByRecipeAndChefUseCase(
-          repository: ChatRepositoryImpl(),
-        ),
-      ),
+      create: (_) =>
+          ChatBloc(
+            getChatListByRecipeAndChefUseCase: GetChatListByRecipeAndChefUseCase(
+              repository: ChatRepositoryImpl(),
+            ),
+          ),
     ),
     BlocProvider<FavoriteBloc>(
-      create: (_) => FavoriteBloc(
-          addFavoriteUseCase: AddFavoriteUseCase(FavoriteRepositoryImpl()),
-          removeFavoriteUseCase:
+      create: (_) =>
+          FavoriteBloc(
+              addFavoriteUseCase: AddFavoriteUseCase(FavoriteRepositoryImpl()),
+              removeFavoriteUseCase:
               RemoveFavoriteUseCase(FavoriteRepositoryImpl()),
-          getFavoritesUseCase: GetFavoritesUseCase(FavoriteRepositoryImpl())),
+              getFavoritesUseCase: GetFavoritesUseCase(
+                  FavoriteRepositoryImpl())),
     ),
     BlocProvider<FormationBloc>(
-      create: (_) => FormationBloc(
-        getFormationsUseCase:
+      create: (_) =>
+          FormationBloc(
+            getFormationsUseCase:
             GetFormationsUseCase(repository: FormationRepositoryImpl()),
-        enrollInFormationUseCase:
+            enrollInFormationUseCase:
             EnrollInFormationUseCase(repository: FormationRepositoryImpl()),
-      ),
+          ),
     ),
     BlocProvider<KitchenItemBloc>(
-      create: (_) => KitchenItemBloc(
-          getKitchenItemsUseCase:
+      create: (_) =>
+          KitchenItemBloc(
+              getKitchenItemsUseCase:
               GetKitchenItemsUseCase(repository: KitchenItemRepositoryImpl()),
-          addKitchenItemUseCase:
+              addKitchenItemUseCase:
               AddKitchenItemUseCase(repository: KitchenItemRepositoryImpl()),
-          updateKitchenItemUseCase:
+              updateKitchenItemUseCase:
               UpdateKitchenItemUseCase(repository: KitchenItemRepositoryImpl()),
-          deleteKitchenItemUseCase: DeleteKitchenItemUseCase(
-              repository: KitchenItemRepositoryImpl())),
+              deleteKitchenItemUseCase: DeleteKitchenItemUseCase(
+                  repository: KitchenItemRepositoryImpl())),
     ),
     BlocProvider<CartBloc>(
-      create: (_) => CartBloc(
-        getCartItemsUseCase: GetCartItemsUseCase(
-          repository: CartRepositoryImpl(),
-        ),
-        addCartItemUseCase: AddCartItemUseCase(
-          repository: CartRepositoryImpl(),
-        ),
-        updateCartItemUseCase: UpdateCartItemUseCase(
-          repository: CartRepositoryImpl(),
-        ),
-        deleteCartItemUseCase: DeleteCartItemUseCase(
-          repository: CartRepositoryImpl(),
-        ),
-        getCartItemByUserIdAndProductIdUseCase:
+      create: (_) =>
+          CartBloc(
+            getCartItemsUseCase: GetCartItemsUseCase(
+              repository: CartRepositoryImpl(),
+            ),
+            addCartItemUseCase: AddCartItemUseCase(
+              repository: CartRepositoryImpl(),
+            ),
+            updateCartItemUseCase: UpdateCartItemUseCase(
+              repository: CartRepositoryImpl(),
+            ),
+            deleteCartItemUseCase: DeleteCartItemUseCase(
+              repository: CartRepositoryImpl(),
+            ),
+            getCartItemByUserIdAndProductIdUseCase:
             GetCartItemByUserIdAndProductIdUseCase(
-          cartRepository: CartRepositoryImpl(),
-        ),
-        updateCartItemQuantityByIdAndUserIdUseCase:
+              cartRepository: CartRepositoryImpl(),
+            ),
+            updateCartItemQuantityByIdAndUserIdUseCase:
             UpdateCartItemQuantityByIdAndUserIdUseCase(
-          repository: CartRepositoryImpl(),
-        ),
-        removeCartItemByIdAndUserIdUseCase: RemoveCartItemByIdAndUserIdUseCase(
-          repository: CartRepositoryImpl(),
-        ),
-        clearCartUseCase: ClearCartUseCase(repository: CartRepositoryImpl()),
-      ),
+              repository: CartRepositoryImpl(),
+            ),
+            removeCartItemByIdAndUserIdUseCase: RemoveCartItemByIdAndUserIdUseCase(
+              repository: CartRepositoryImpl(),
+            ),
+            clearCartUseCase: ClearCartUseCase(
+                repository: CartRepositoryImpl()),
+          ),
     ),
     BlocProvider<PurchaseBloc>(
-      create: (_) => PurchaseBloc(
-        createOrderUseCase: CreateOrderUesCase(
-          OrderRepositoryImpl(),
-        ),
-        loadOrdersUesCase: LoadOrdersUesCase(
-          repository: OrderRepositoryImpl(),
-        ),
-      ),
+      create: (_) =>
+          PurchaseBloc(
+            createOrderUseCase: CreateOrderUesCase(
+              OrderRepositoryImpl(),
+            ),
+            loadOrdersUesCase: LoadOrdersUesCase(
+              repository: OrderRepositoryImpl(),
+            ),
+          ),
     ),
     BlocProvider<LocationBloc>(
-      create: (_) => LocationBloc(
-        fetchAllLocalsUseCase: FetchAllLocalsUseCase(LocationRepositoryImpl()),
-        fetchKitchensByLocalIdUseCase: FetchKitchensByLocalIdUseCase(LocationRepositoryImpl()),
-        bookKitchenUseCase: BookKitchenUseCase(LocationRepositoryImpl()),
-        fetchBookingsByKitchenIdUseCase: FetchBookingsByKitchenIdUseCase(LocationRepositoryImpl()),
-      ),
+      create: (_) =>
+          LocationBloc(
+            fetchAllLocalsUseCase: FetchAllLocalsUseCase(
+                LocationRepositoryImpl()),
+            fetchKitchensByLocalIdUseCase: FetchKitchensByLocalIdUseCase(
+                LocationRepositoryImpl()),
+            bookKitchenUseCase: BookKitchenUseCase(LocationRepositoryImpl()),
+            fetchBookingsByKitchenIdUseCase: FetchBookingsByKitchenIdUseCase(
+              LocationRepositoryImpl(),
+            ),
+          ),
+    ),
+    BlocProvider<FavoriteBloc>(
+      create: (_) =>
+          FavoriteBloc(
+            addFavoriteUseCase: AddFavoriteUseCase(FavoriteRepositoryImpl()),
+            removeFavoriteUseCase: RemoveFavoriteUseCase(
+                FavoriteRepositoryImpl()),
+            getFavoritesUseCase: GetFavoritesUseCase(FavoriteRepositoryImpl(),
+            ),
+          ),
     ),
   ];
 }

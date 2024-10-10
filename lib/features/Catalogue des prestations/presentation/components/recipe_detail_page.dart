@@ -13,8 +13,6 @@ class RecipeDetailPage extends StatelessWidget {
   RecipeDetailPage({Key? key, required this.recipe}) : super(key: key);
 
   final String currentUserId = FirebaseUserRepo().currentUser!.uid;
-//  final DataBaseService _dataBaseService = DataBaseService();
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(

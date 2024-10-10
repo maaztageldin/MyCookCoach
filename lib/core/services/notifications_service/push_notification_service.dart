@@ -1,5 +1,4 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mycookcoach/app.dart';
@@ -14,9 +13,9 @@ class FirebaseApi {
 
   void _initializeLocalNotifications() {
     const AndroidInitializationSettings initializationSettingsAndroid = AndroidInitializationSettings('@mipmap/ic_launcher');
-    final DarwinInitializationSettings initializationSettingsIOS = DarwinInitializationSettings();
+    const DarwinInitializationSettings initializationSettingsIOS = DarwinInitializationSettings();
 
-    final InitializationSettings initializationSettings = InitializationSettings(
+    const InitializationSettings initializationSettings = InitializationSettings(
       android: initializationSettingsAndroid,
       iOS: initializationSettingsIOS,
     );
@@ -24,7 +23,6 @@ class FirebaseApi {
     _localNotificationsPlugin.initialize(
       initializationSettings,
       onDidReceiveNotificationResponse: (NotificationResponse response) {
-        // Rediriger vers la page des notifications si l'utilisateur clique sur la notification
         GoRouter.of(navigatorKey.currentContext!).push('/notification');
       },
     );
@@ -42,8 +40,8 @@ class FirebaseApi {
   void _showLocalNotification(RemoteNotification notification) async {
     const AndroidNotificationDetails androidPlatformChannelSpecifics =
     AndroidNotificationDetails(
-      'your_channel_id', // ID du channel
-      'your_channel_name', // Nom du channel
+      'your_channel_id',
+      'your_channel_name',
       channelDescription: 'your_channel_description',
       importance: Importance.max,
       priority: Priority.high,
@@ -54,16 +52,16 @@ class FirebaseApi {
     NotificationDetails(android: androidPlatformChannelSpecifics);
 
     await _localNotificationsPlugin.show(
-      0, // ID de la notification
-      notification.title, // Titre
-      notification.body, // Corps de la notification
+      0,
+      notification.title,
+      notification.body,
       platformChannelSpecifics,
     );
   }
 
   Future<void> initPushNotifications() async {
     await _firebaseMessaging.setForegroundNotificationPresentationOptions(
-      alert: false, // Désactiver les notifications système par défaut en avant-plan
+      alert: false,
       badge: true,
       sound: true,
     );

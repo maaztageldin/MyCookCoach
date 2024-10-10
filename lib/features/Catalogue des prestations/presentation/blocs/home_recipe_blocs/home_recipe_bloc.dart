@@ -4,6 +4,7 @@ import 'package:mycookcoach/features/Catalogue%20des%20prestations/domain/usecas
 import 'package:mycookcoach/features/Catalogue%20des%20prestations/domain/usecases/home_recipe_usecase/delete_home_recipe_usecase.dart';
 import 'package:mycookcoach/features/Catalogue%20des%20prestations/domain/usecases/home_recipe_usecase/fetch_all_home_recipe_usecase.dart';
 import 'package:mycookcoach/features/Catalogue%20des%20prestations/domain/usecases/home_recipe_usecase/get_home_recipe_by_id_usecase.dart';
+import 'package:mycookcoach/features/Catalogue%20des%20prestations/domain/usecases/home_recipe_usecase/get_home_recipes_by_Ids_usecase.dart';
 import 'package:mycookcoach/features/Catalogue%20des%20prestations/domain/usecases/home_recipe_usecase/update_home_recipe_usecase.dart';
 import 'package:mycookcoach/features/Catalogue%20des%20prestations/presentation/blocs/home_recipe_blocs/home_recipe_event.dart';
 import 'package:mycookcoach/features/Catalogue%20des%20prestations/presentation/blocs/home_recipe_blocs/home_recipe_state.dart';
@@ -14,6 +15,7 @@ class HomeRecipeBloc extends Bloc<HomeRecipeEvent, HomeRecipeState> {
   final UpdateHomeRecipeUseCase updateHomeRecipeUseCase;
   final DeleteHomeRecipeUseCase deleteHomeRecipeUseCase;
   final FetchAllHomeRecipesUseCase fetchAllHomeRecipesUseCase;
+  final GetHomeRecipesByIdsUseCase getHomeRecipesByIdsUseCase;
 
   HomeRecipeBloc({
     required this.getHomeRecipeByIdUseCase,
@@ -21,12 +23,14 @@ class HomeRecipeBloc extends Bloc<HomeRecipeEvent, HomeRecipeState> {
     required this.updateHomeRecipeUseCase,
     required this.deleteHomeRecipeUseCase,
     required this.fetchAllHomeRecipesUseCase,
+    required this.getHomeRecipesByIdsUseCase,
   }) : super(HomeRecipeInitial()) {
     on<GetHomeRecipeById>(_onGetHomeRecipeById);
     on<CreateHomeRecipe>(_onCreateHomeRecipe);
     on<UpdateHomeRecipe>(_onUpdateHomeRecipe);
     on<DeleteHomeRecipe>(_onDeleteHomeRecipe);
     on<FetchAllHomeRecipes>(_onFetchAllHomeRecipes);
+    on<GetRecipesByIdList>(_onGetRecipesByIdList);
   }
 
   Future<void> _onGetHomeRecipeById(
@@ -96,5 +100,15 @@ class HomeRecipeBloc extends Bloc<HomeRecipeEvent, HomeRecipeState> {
       default:
         return 'Unexpected error';
     }
+  }
+
+  Future<void> _onGetRecipesByIdList(GetRecipesByIdList event, Emitter<HomeRecipeState> emit) async {
+    emit(HomeRecipeLoading());
+    final failureOrRecipes = await getHomeRecipesByIdsUseCase.execute(event.recipeIds);
+
+    emit(failureOrRecipes.fold(
+          (failure) => HomeRecipeOperationFailure(_mapFailureToMessage(failure)),
+          (recipes) => HomeRecipesLoadedByIds(recipes),
+    ));
   }
 }

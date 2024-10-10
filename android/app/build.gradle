@@ -24,7 +24,7 @@ if (flutterVersionName == null) {
 
 android {
     namespace "com.esgi.pa5moc.mycookcoach"
-    compileSdk flutter.compileSdkVersion
+    compileSdk 34
     ndkVersion flutter.ndkVersion
 
     compileOptions {
@@ -46,11 +46,20 @@ android {
         // You can update the following values to match your application needs.
         // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-gradle-build-configuration.
         minSdkVersion 25
-        targetSdkVersion flutter.targetSdkVersion
-        versionCode flutterVersionCode.toInteger()
-        versionName flutterVersionName
+        targetSdkVersion 34
+        versionCode 3
+        versionName "1.0.2"
 
         multiDexEnabled true
+    }
+
+    signingConfigs {
+        release {
+            keyAlias 'mycookcoach'
+            keyPassword 'sheIsmam123'
+            storeFile file('C:/Users/t475787/mycookcoach.jks')
+            storePassword 'sheIsmam123'
+        }
     }
 
     buildTypes {
@@ -62,7 +71,7 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
 
             ndk {
-                debugSymbolLevel 'FULL'
+                debugSymbolLevel 'full'
             }
         }
     }

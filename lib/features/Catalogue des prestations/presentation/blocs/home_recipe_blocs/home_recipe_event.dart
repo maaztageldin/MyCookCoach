@@ -45,3 +45,10 @@ class DeleteHomeRecipe extends HomeRecipeEvent {
 }
 
 class FetchAllHomeRecipes extends HomeRecipeEvent {}
+
+class GetRecipesByIdList extends HomeRecipeEvent {
+  final List<String> recipeIds;
+
+  GetRecipesByIdList(this.recipeIds);
+}
+

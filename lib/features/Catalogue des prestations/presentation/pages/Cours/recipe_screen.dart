@@ -42,7 +42,8 @@ class _HomeRecipeScreenState extends State<HomeRecipeScreen> {
         },
         builder: (context, state) {
           if (state is UserLoading) {
-            return const Center(child: CircularProgressIndicator(color: kMainColor));
+            return const Center(
+                child: CircularProgressIndicator(color: kMainColor));
           } else if (state is UserLoaded) {
             user = state.user;
             return RecipeInfo(

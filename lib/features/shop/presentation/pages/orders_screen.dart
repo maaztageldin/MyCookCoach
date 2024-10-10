@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:mycookcoach/core/utils/constents.dart';
 import 'package:mycookcoach/features/authentication/data/repositories/firebase_user_repo.dart';
 import 'package:mycookcoach/features/shop/presentation/blocs/orders_bloc/order_bloc.dart';

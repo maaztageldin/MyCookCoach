@@ -39,3 +39,9 @@ class HomeRecipeOperationFailure extends HomeRecipeState {
   @override
   List<Object> get props => [error];
 }
+
+class HomeRecipesLoadedByIds extends HomeRecipeState {
+  final List<HomeRecipeEntity> recipes;
+
+  HomeRecipesLoadedByIds(this.recipes);
+}

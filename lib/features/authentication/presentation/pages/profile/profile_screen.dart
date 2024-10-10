@@ -10,10 +10,9 @@ import 'package:mycookcoach/features/authentication/domain/entities/user_entity.
 import 'package:mycookcoach/features/authentication/presentation/blocs/user/user_bloc.dart';
 import 'package:mycookcoach/features/authentication/presentation/blocs/user/user_event.dart';
 import 'package:mycookcoach/features/authentication/presentation/blocs/user/user_state.dart';
-import 'package:mycookcoach/features/authentication/presentation/pages/help_center_page.dart';
-import 'package:mycookcoach/features/authentication/presentation/pages/invite_friends_page.dart';
 import 'package:mycookcoach/features/authentication/presentation/pages/privacy_policy_page.dart';
 import 'package:mycookcoach/features/authentication/presentation/pages/profile/edit_personal_info.dart';
+import 'package:mycookcoach/features/shop/presentation/pages/orders_screen.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -107,9 +106,8 @@ class UserDetailsState extends State<UserDetails> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFF8B4513),//Color(0xFF8B4513).withOpacity(0.8),
+      backgroundColor: const Color(0xFF8B4513),
 
-      //backgroundColor: Color(0xFFf8f8f8),
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
@@ -125,10 +123,11 @@ class UserDetailsState extends State<UserDetails> {
             padding: EdgeInsets.all(20.0),
             child: Column(
               children: [
+                SizedBox(height: 50),
                 Stack(
                   children: [
                     CircleAvatar(
-                      radius: 40,
+                      radius: 70,
                       backgroundImage:
                           _getImageProvider(widget.user.pictureUrl),
                     ),
@@ -137,7 +136,7 @@ class UserDetailsState extends State<UserDetails> {
                 SizedBox(height: 26),
                 Text(
                   widget.user.firstName! + " " + widget.user.lastName!,
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 24,
                     fontWeight: FontWeight.bold,
                     color: Colors.white,
@@ -146,11 +145,12 @@ class UserDetailsState extends State<UserDetails> {
                 SizedBox(height: 4),
                 Text(
                   widget.user.role!,
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 16,
                     color: Colors.white,
                   ),
                 ),
+                SizedBox(height: 50),
               ],
             ),
           ),
@@ -158,7 +158,7 @@ class UserDetailsState extends State<UserDetails> {
           Expanded(
             child: Container(
               padding: EdgeInsets.symmetric(horizontal: 20),
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.vertical(top: Radius.circular(40)),
                 boxShadow: [
@@ -171,14 +171,7 @@ class UserDetailsState extends State<UserDetails> {
               ),
               child: ListView(
                 children: [
-                  SizedBox(height: 20),
-                  /*ProfileInfoCard(
-                    icon: Icons.email_outlined,
-                    title: 'Email',
-                    subtitle: emailController.text,
-                    isEditing: isEditing,
-                    controller: emailController,
-                  ),*/
+                  SizedBox(height: 50),
                   ProfileListItem(
                     icon: Icons.person,
                     text: 'Information personnelle',
@@ -193,27 +186,12 @@ class UserDetailsState extends State<UserDetails> {
                     },
                   ),
                   ProfileListItem(
-                    icon: Icons.credit_card,
-                    text: 'méthodes de paiement',
-                    onTap: () {},
-                  ),
-                  ProfileListItem(
                     icon: Icons.shopping_bag,
                     text: 'mes commandes',
-                    onTap: () {},
-                  ),
-                  ProfileListItem(
-                    icon: Icons.settings,
-                    text: 'paramètres',
-                    onTap: () {},
-                  ),
-                  ProfileListItem(
-                    icon: Icons.help_outline,
-                    text: 'centre d\'aide',
                     onTap: () {
                       Navigator.of(context).push(
                         MaterialPageRoute(
-                          builder: (context) => HelpCenterPage(),
+                          builder: (context) => OrdersScreen(),
                         ),
                       );
                     },
@@ -225,17 +203,6 @@ class UserDetailsState extends State<UserDetails> {
                       Navigator.of(context).push(
                         MaterialPageRoute(
                           builder: (context) => PrivacyPolicyPage(),
-                        ),
-                      );
-                    },
-                  ),
-                  ProfileListItem(
-                    icon: Icons.person_add_alt_1,
-                    text: 'inviter vos amis',
-                    onTap: () {
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (context) => InviteFriendsPage(),
                         ),
                       );
                     },
@@ -422,30 +389,27 @@ class ProfileInfoCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      elevation: 0, // Supprime l'ombre pour un look plat
+      elevation: 0,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(
-            16), // Augmente le rayon pour des coins plus arrondis
+            16),
       ),
-      color: Colors.grey.shade100, // Couleur de fond douce et neutre
+      color: Colors.grey.shade100,
       child: ListTile(
         contentPadding: EdgeInsets.symmetric(vertical: 12.0, horizontal: 16.0),
-        // Espace généreux autour du contenu
         leading: Icon(
           icon,
           color: Colors.grey.shade800,
-          // Couleur de l'icône plus douce et neutre
+
           size:
-              28, // Taille de l'icône légèrement augmentée pour un effet premium
+              28,
         ),
         title: Text(
           title,
           style: TextStyle(
             fontWeight: FontWeight.bold,
-            // Style gras pour une meilleure lisibilité
             fontSize: 18,
-            // Taille de la police plus grande pour le titre
-            color: Colors.grey.shade800, // Couleur de texte assortie à l'icône
+            color: Colors.grey.shade800,
           ),
         ),
         subtitle: isEditing
@@ -453,38 +417,20 @@ class ProfileInfoCard extends StatelessWidget {
                 controller: controller,
                 style: TextStyle(
                   fontSize:
-                      16, // Taille de la police adaptée pour le sous-titre
-                  color: Colors.grey.shade600, // Couleur du texte plus légère
+                      16,
+                  color: Colors.grey.shade600,
                 ),
                 decoration: InputDecoration(
-                  border: InputBorder.none, // Enlève la bordure du TextField
+                  border: InputBorder.none,
                 ),
               )
             : Text(
                 subtitle,
                 style: TextStyle(
-                  fontSize: 16, // Taille de la police du sous-titre
-                  color: Colors.grey.shade600, // Couleur du texte du sous-titre
+                  fontSize: 16,
+                  color: Colors.grey.shade600,
                 ),
               ),
-      ),
-    );
-  }
-}
-
-class FavoritesPage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.blueGrey[900],
-      appBar: AppBar(
-        title: Text('Favorites'),
-      ),
-      body: Center(
-        child: Text(
-          'Favorites Page',
-          style: TextStyle(color: Colors.white, fontSize: 24),
-        ),
       ),
     );
   }

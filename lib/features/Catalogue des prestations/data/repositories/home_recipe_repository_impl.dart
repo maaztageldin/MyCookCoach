@@ -12,7 +12,7 @@ class HomeRecipeRepositoryImpl implements HomeRecipeRepository {
   @override
   ResultFuture<HomeRecipeEntity> getHomeRecipeById(String recipeId) async {
     try {
-      final doc = await _firestore.collection('recipes').doc(recipeId).get();
+      final doc = await _firestore.collection('home_recipes').doc(recipeId).get();
       if (doc.exists && doc.data() != null) {
         return Right(
           HomeRecipeEntity.fromDocument(doc.data() as Map<String, dynamic>),
@@ -37,7 +37,7 @@ class HomeRecipeRepositoryImpl implements HomeRecipeRepository {
   @override
   ResultFuture<void> createHomeRecipe(HomeRecipeEntity recipe) async {
     try {
-      final recipesCollection = _firestore.collection('recipes');
+      final recipesCollection = _firestore.collection('home_recipes');
       await recipesCollection.doc(recipe.name).set(recipe.toDocument());
       return const Right(null);
     } catch (e) {
@@ -57,7 +57,7 @@ class HomeRecipeRepositoryImpl implements HomeRecipeRepository {
   ResultVoid updateHomeRecipe(HomeRecipeEntity recipe) async {
     try {
       await _firestore
-          .collection('recipes')
+          .collection('home_recipes')
           .doc(recipe.name)
           .update(recipe.toDocument());
       return const Right(null);
@@ -77,7 +77,7 @@ class HomeRecipeRepositoryImpl implements HomeRecipeRepository {
   @override
   ResultVoid deleteHomeRecipe(String recipeId) async {
     try {
-      await _firestore.collection('recipes').doc(recipeId).delete();
+      await _firestore.collection('home_recipes').doc(recipeId).delete();
       return const Right(null);
     } catch (e) {
       if (e is FirebaseException) {
@@ -112,4 +112,41 @@ class HomeRecipeRepositoryImpl implements HomeRecipeRepository {
       }
     }
   }
+
+  @override
+  @override
+  Future<Either<Failure, List<HomeRecipeEntity>>> getRecipesByIds(List<String> recipeIds) async {
+    try {
+      final snapshot = await _firestore
+          .collection('home_recipes')
+          .where(FieldPath.documentId, whereIn: recipeIds)
+          .get();
+
+      if (snapshot.docs.isEmpty) {
+        return Left(FireBaseFailure(
+          message: 'Aucune recette trouvée pour les IDs fournis',
+          statusCode: 404,
+        ));
+      }
+
+      final recipes = snapshot.docs
+          .map((doc) => HomeRecipeEntity.fromDocument(doc.data() as Map<String, dynamic>))
+          .toList();
+
+      return Right(recipes);
+    } catch (e) {
+      if (e is FirebaseException) {
+        return Left(FireBaseFailure(
+          message: e.message ?? "Échec lors de la récupération des recettes : ${e.toString()}",
+          statusCode: 500,
+        ));
+      } else {
+        return Left(FireBaseFailure(
+          message: "Erreur lors de la récupération des recettes : ${e.toString()}",
+          statusCode: 500,
+        ));
+      }
+    }
+  }
+
 }

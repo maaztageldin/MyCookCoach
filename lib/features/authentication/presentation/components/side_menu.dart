@@ -147,13 +147,6 @@ List<RiveAsset> sidMenu = [
     title: 'Home',
     shapeStrokeTitle: 'home',
   ),
-  RiveAsset(
-    src: Asset.iconSet3,
-    artboard: 'Dots-CLICK',
-    title: 'Prestation',
-    shapeStrokeTitle: 'dots',
-    stateMachineName: 'State-machine',
-  ),
 ];
 
 List<RiveAsset> sidMenu2 = [
@@ -170,17 +163,5 @@ List<RiveAsset> sidMenu2 = [
     stateMachineName: 'BELL_Interactivity',
     title: 'Notification',
     shapeStrokeTitle: 'bell',
-  ),
-  RiveAsset(
-    stateMachineName: "SEARCH_Interactivity",
-    title: "Mes commandes",
-    src: Asset.iconSet1,
-    artboard: 'SEARCH',
-  ),
-  RiveAsset(
-    stateMachineName: "SEARCH_Interactivity",
-    title: "Mes sauvegards",
-    src: Asset.iconSet1,
-    artboard: 'SEARCH',
   ),
 ];

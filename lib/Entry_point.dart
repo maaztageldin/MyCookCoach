@@ -1,11 +1,11 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:mycookcoach/features/Catalogue%20des%20prestations/presentation/pages/favorites_page.dart';
 import 'package:mycookcoach/features/Notifications%20et%20alertes/presentation/pages/notifications_page.dart';
 import 'package:mycookcoach/features/authentication/data/models/menu_btn.dart';
 import 'package:mycookcoach/features/authentication/presentation/components/side_menu.dart';
 import 'package:mycookcoach/features/authentication/presentation/pages/home_screen.dart';
-import 'package:mycookcoach/features/authentication/presentation/pages/profile/profile_screen.dart';
 import 'package:mycookcoach/features/shop/presentation/pages/orders_screen.dart';
 import 'package:rive/rive.dart';
 import 'package:rive_animated_icon/rive_animated_icon.dart';
@@ -93,13 +93,11 @@ class _EntryPointState extends State<EntryPoint>
                       ? const PrestationScreen()
                       : _selectedPage == 'Mes commandes'
                           ? OrdersScreen()
-                          : _selectedPage == 'Prestation'
-                              ? const PrestationScreen()
-                              : _selectedPage == 'Favorites'
-                                  ? FavoritesPage()
-                                  : _selectedPage == 'Notification'
-                                      ? NotificationsPage()
-                                      : PrestationScreen(),
+                          : _selectedPage == 'Favorites'
+                              ? FavoritesPage()
+                              : _selectedPage == 'Notification'
+                                  ? NotificationsPage()
+                                  : PrestationScreen(),
                 ),
               ),
             ),

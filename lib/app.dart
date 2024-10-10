@@ -3,15 +3,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mycookcoach/Entry_point.dart';
 import 'package:mycookcoach/core/errors/error_screen.dart';
-import 'package:mycookcoach/features/Catalogue%20des%20prestations/presentation/pages/Cours/recipe_screen.dart';
-import 'package:mycookcoach/features/Catalogue%20des%20prestations/presentation/pages/formation_screen/formation_screen.dart';
+import 'package:mycookcoach/features/Catalogue%20des%20prestations/presentation/pages/favorites_page.dart';
 import 'package:mycookcoach/features/Notifications%20et%20alertes/presentation/pages/notifications_page.dart';
 import 'package:mycookcoach/features/authentication/presentation/blocs/auth_blocs/auth_bloc.dart';
 import 'package:mycookcoach/features/authentication/presentation/blocs/auth_blocs/auth_state.dart';
 import 'package:mycookcoach/features/authentication/presentation/pages/welcome_screen.dart';
-import 'package:mycookcoach/features/location_espace/presentation/pages/location_screen.dart';
-import 'package:mycookcoach/features/shop/presentation/pages/orders_screen.dart';
-import 'package:mycookcoach/features/shop/presentation/pages/shop_screen.dart';
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
@@ -31,7 +27,7 @@ class MyApp extends StatelessWidget {
         GoRoute(
           path: '/home',
           builder: (context, state) =>
-              const /*EntryPoint(), ShopScreen(),  FormationScreen(), HomeRecipeScreen(),*/ EntryPoint(),
+              const /*EntryPoint(), ShopScreen(),  FormationScreen(), FavoritesPage(),*/ EntryPoint(),
         ),
         GoRoute(
           path: '/notification',
