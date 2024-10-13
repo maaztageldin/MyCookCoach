@@ -99,116 +99,138 @@ class _FormationItemState extends State<FormationItem> {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      color: kTextLightColor,
-      child: Padding(
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Container(
+        margin: const EdgeInsets.symmetric(vertical: 10.0),
         padding: const EdgeInsets.all(8.0),
+        decoration: _cardDecoration(),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(
-              height: 250,
-              width: 380,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(16),
-                image: DecorationImage(
-                  image: widget.formation.imageUrl.isNotEmpty
-                      ? NetworkImage(widget.formation.imageUrl)
-                      : AssetImage("assets/shop/images/chef_img.png")
-                  as ImageProvider,
-                  fit: BoxFit.cover,
-                ),
-              ),
-            ),
-            const SizedBox(height: 8.0),
-            Text(
-              widget.formation.title,
-              style:
-              const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 4.0),
-            Text(widget.formation.description),
-            const SizedBox(height: 4.0),
-            Text(
-              "Prix: ${widget.formation.price} €",
-              style:
-              const TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 4.0),
-            Text(
-              "Durée: ${widget.formation.duration}",
-              style:
-              const TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 4.0),
-            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                isEnrolled
-                    ? const Text(
-                  'Déjà inscrit',
-                  style: TextStyle(
-                      color: Colors.grey,
-                      fontSize: 14,
-                      fontWeight: FontWeight.bold),
-                )
-                    : _isLoading
-                    ? const CircularProgressIndicator(
-                  color: kMainColor,
-                )
-                    : TextButton(
-                  onPressed: () async {
-                    setState(() {
-                      _isLoading = true;
-                    });
-
-                    bool paymentSuccess =
-                    await StripeService.instance
-                        .enrollUserFormation(
-                      context,
-                      widget.user.userId,
-                      widget.formation.id,
-                      int.parse(widget.formation.price),
-                    );
-                    if (paymentSuccess) {
-                      setState(() {
-                        isEnrolled = true;
-                      });
-                      await _showNotification(
-                        "Inscription réussie",
-                        "Vous êtes maintenant inscrit à ${widget.formation.title}.", widget.formation.id
-                      );
-                    }
-                    setState(() {
-                      _isLoading = false;
-                    });
-                  },
-                  child: const Text(
-                    'S\'inscrire',
-                    style: TextStyle(
-                      color: kMainColor,
-                      fontSize: 14,
-                      fontWeight: FontWeight.bold,
+                Container(
+                  margin: const EdgeInsets.symmetric(vertical: 10.0),
+                  padding: const EdgeInsets.all(10.0),
+                  height: 250,
+                  width: 380,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(16),
+                    image: DecorationImage(
+                      image: widget.formation.imageUrl.isNotEmpty
+                          ? NetworkImage(widget.formation.imageUrl)
+                          : AssetImage("assets/shop/images/chef_img.png")
+                      as ImageProvider,
+                      fit: BoxFit.cover,
                     ),
                   ),
                 ),
-                const Spacer(),
-                TextButton(
-                  onPressed: () => _showFormationDetails(context),
-                  child: const Text(
-                    'Détails',
-                    style: TextStyle(
-                        color: kMainColor,
-                        fontSize: 14,
-                        fontWeight: FontWeight.bold),
-                  ),
+                const SizedBox(height: 8.0),
+                Text(
+                  widget.formation.title,
+                  style:
+                  const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                ),
+                const SizedBox(height: 4.0),
+                Text(widget.formation.description),
+                const SizedBox(height: 4.0),
+                Text(
+                  "Prix: ${widget.formation.price} €",
+                  style:
+                  const TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+                ),
+                const SizedBox(height: 4.0),
+                Text(
+                  "Durée: ${widget.formation.duration}",
+                  style:
+                  const TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+                ),
+                const SizedBox(height: 4.0),
+                Row(
+                  children: [
+                    isEnrolled
+                        ? const Text(
+                      'Déjà inscrit',
+                      style: TextStyle(
+                          color: Colors.grey,
+                          fontSize: 14,
+                          fontWeight: FontWeight.bold),
+                    )
+                        : _isLoading
+                        ? const CircularProgressIndicator(
+                      color: kMainColor,
+                    )
+                        : TextButton(
+                      onPressed: () async {
+                        setState(() {
+                          _isLoading = true;
+                        });
+
+                        bool paymentSuccess =
+                        await StripeService.instance
+                            .enrollUserFormation(
+                          context,
+                          widget.user.userId,
+                          widget.formation.id,
+                          int.parse(widget.formation.price),
+                        );
+                        if (paymentSuccess) {
+                          setState(() {
+                            isEnrolled = true;
+                          });
+                          await _showNotification(
+                            "Inscription réussie",
+                            "Vous êtes maintenant inscrit à ${widget.formation.title}.", widget.formation.id
+                          );
+                        }
+                        setState(() {
+                          _isLoading = false;
+                        });
+                      },
+                      child: const Text(
+                        'S\'inscrire',
+                        style: TextStyle(
+                          color: kMainColor,
+                          fontSize: 14,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                    const Spacer(),
+                    TextButton(
+                      onPressed: () => _showFormationDetails(context),
+                      child: const Text(
+                        'Détails',
+                        style: TextStyle(
+                            color: kMainColor,
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                  ],
                 ),
               ],
-            ),
-          ],
+           // ),
+         // ),
         ),
       ),
     );
   }
+
+  BoxDecoration _cardDecoration() {
+    return BoxDecoration(
+      color: Colors.white,
+      borderRadius: BorderRadius.circular(10),
+      boxShadow: [
+        BoxShadow(
+          color: Colors.grey.withOpacity(0.2),
+          spreadRadius: 2,
+          blurRadius: 5,
+          offset: const Offset(0, 3),
+        ),
+      ],
+    );
+  }
+
 
   void _showFormationDetails(BuildContext context) {
     showModalBottomSheet(

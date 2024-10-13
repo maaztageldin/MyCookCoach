@@ -95,7 +95,6 @@ class _FavoritesPageState extends State<FavoritesPage> {
 
     final recipeIds = favorites.map((favorite) => favorite.recipeId).toList();
 
-    // Charger les recettes par ID dans le bloc
     context.read<HomeRecipeBloc>().add(GetRecipesByIdList(recipeIds));
 
     return BlocBuilder<HomeRecipeBloc, HomeRecipeState>(
@@ -110,7 +109,7 @@ class _FavoritesPageState extends State<FavoritesPage> {
             padding: const EdgeInsets.all(12.0),
             itemCount: recipes.length,
             itemBuilder: (context, index) {
-              return FavoriteItemCard(recipe: recipes[index]!);
+              return FavoriteItemCard(recipe: recipes[index]);
             },
           );
         } else {

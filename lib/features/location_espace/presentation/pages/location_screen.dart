@@ -28,36 +28,8 @@ class _LocationScreenState extends State<LocationScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(),
       backgroundColor: Colors.white,
-      appBar: AppBar(
-        /*title: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Text(
-            'Louer un espace',
-            style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black87,
-                ),
-          ),
-        ),
-        backgroundColor: Colors.white,
-        elevation: 0,
-        actions: [
-          TextButton(
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => MyReservationsScreen()),
-              );
-            },
-            child: const Text(
-              "Mes Réservations",
-              style: TextStyle(color: kTextLightColor),
-            ),
-          ),
-        ],*/
-      ),
       body: BlocConsumer<LocationBloc, LocationState>(
         listener: (context, state) {
           if (state is LocationError) {
@@ -71,29 +43,28 @@ class _LocationScreenState extends State<LocationScreen> {
         },
         builder: (context, state) {
           if (state is LocationLoading) {
-            return const Center(child: CircularProgressIndicator(color: kMainColor));
+            return const Center(
+                child: CircularProgressIndicator(color: kMainColor));
           } else if (state is LocalsLoaded && state.locals.isNotEmpty) {
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Row(
                     children: [
                       Text(
-                          'Louer un espace',
-                        style: Theme.of(context)
-                            .textTheme
-                            .titleLarge!
-                            .copyWith(fontWeight: FontWeight.bold, color: kMainColor),
-                        ),
+                        'Louer un espace',
+                        style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                            fontWeight: FontWeight.bold, color: kMainColor),
+                      ),
                       Spacer(),
                       TextButton(
                         onPressed: () {
                           Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (context) => MyReservationsScreen()),
+                            MaterialPageRoute(
+                                builder: (context) => MyReservationsScreen()),
                           );
                         },
                         child: const Text(
@@ -104,7 +75,6 @@ class _LocationScreenState extends State<LocationScreen> {
                     ],
                   ),
                 ),
-
                 const SizedBox(height: 10),
                 Expanded(
                   child: Padding(

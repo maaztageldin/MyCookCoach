@@ -52,21 +52,28 @@ class MyReservationsScreen extends StatelessWidget {
             itemCount: bookings.length,
             itemBuilder: (context, index) {
               final booking = bookings[index];
-              return ListTile(
-                title: const Text(
-                  "Réservation :",
-                  style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black87,
-                      ),
+              return Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Container(
+                  padding: const EdgeInsets.all(8.0),
+                  decoration: _cardDecoration(),
+                  child: ListTile(
+                    title: const Text(
+                      "Réservation :",
+                      style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black87,
+                          ),
+                    ),
+                    subtitle: Text("Du ${booking.startDate} "
+                        "\nAu ${booking.endDate}"
+                        "\nPrix: ${booking.price} €", style: const TextStyle(
+                      fontSize: 14,
+                      color: kTextColor,
+                    ),),
+                  ),
                 ),
-                subtitle: Text("Du ${booking.startDate} "
-                    "\nAu ${booking.endDate}"
-                    "\nPrix: ${booking.price} €", style: const TextStyle(
-                  fontSize: 14,
-                  color: kTextColor,
-                ),),
               );
             },
           );
@@ -74,4 +81,20 @@ class MyReservationsScreen extends StatelessWidget {
       ),
     );
   }
+
+  BoxDecoration _cardDecoration() {
+    return BoxDecoration(
+      color: Colors.white,
+      borderRadius: BorderRadius.circular(10),
+      boxShadow: [
+        BoxShadow(
+          color: Colors.grey.withOpacity(0.2),
+          spreadRadius: 2,
+          blurRadius: 5,
+          offset: const Offset(0, 3),
+        ),
+      ],
+    );
+  }
+
 }

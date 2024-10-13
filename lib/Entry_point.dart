@@ -89,11 +89,11 @@ class _EntryPointState extends State<EntryPoint>
                 scale: scalAnimation.value,
                 child: ClipRRect(
                   borderRadius: BorderRadius.all(Radius.circular(24)),
-                  child: _selectedPage == 'Home'
+                  child: _selectedPage == 'Aceuil'
                       ? const PrestationScreen()
                       : _selectedPage == 'Mes commandes'
                           ? OrdersScreen()
-                          : _selectedPage == 'Favorites'
+                          : _selectedPage == 'Favoris'
                               ? FavoritesPage()
                               : _selectedPage == 'Notification'
                                   ? NotificationsPage()

@@ -3,7 +3,6 @@ import 'package:mycookcoach/features/Catalogue%20des%20prestations/presentation/
 import 'package:mycookcoach/features/Catalogue%20des%20prestations/presentation/pages/formation_screen/formation_screen.dart';
 import 'package:mycookcoach/features/location_espace/presentation/pages/location_screen.dart';
 import 'package:mycookcoach/features/shop/presentation/pages/shop_screen.dart';
-import 'package:rive_animated_icon/rive_animated_icon.dart';
 
 class PrestationScreen extends StatefulWidget {
   const PrestationScreen({Key? key}) : super(key: key);
@@ -27,12 +26,11 @@ class _HomeScreenState extends State<PrestationScreen> {
     return Scaffold(
       body: _screens[_currentIndex],
       bottomNavigationBar: Container(
-        padding: EdgeInsets.all(4),
-        margin: EdgeInsets.symmetric(horizontal: 12, vertical: 16),
+        padding: const EdgeInsets.all(4),
+        margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
         decoration: const BoxDecoration(
           borderRadius: BorderRadius.all(Radius.circular(24)),
-          color: Color(0xFF8B4513,
-          ),
+          color: Color(0xFF8B4513),
         ),
         child: BottomNavigationBar(
           backgroundColor: Colors.transparent,
@@ -46,72 +44,24 @@ class _HomeScreenState extends State<PrestationScreen> {
             });
           },
           selectedLabelStyle:
-              TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
-          unselectedLabelStyle: TextStyle(fontSize: 10),
-          items: [
+          const TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+          unselectedLabelStyle: const TextStyle(fontSize: 10),
+          items: const [
             BottomNavigationBarItem(
-              icon: RiveAnimatedIcon(
-                onTap: () {
-                  setState(() {
-                    _currentIndex = 0;
-                  });
-                },
-                riveIcon: RiveIcon.zap,
-                width: 30,
-                height: 30,
-                color: Colors.white,
-                strokeWidth: 8,
-                loopAnimation: false,
-              ),
+              icon: Icon(Icons.menu_book_outlined, size: 25, color: Colors.white),
               label: 'Cours',
             ),
             BottomNavigationBarItem(
-              icon: RiveAnimatedIcon(
-                onTap: () {
-                  setState(() {
-                    _currentIndex = 1;
-                  });
-                },
-                riveIcon: RiveIcon.device,
-                width: 30,
-                height: 30,
-                color: Colors.white,
-                strokeWidth: 3,
-                loopAnimation: false,
-              ),
-              label: 'Shop',
+              icon: Icon(Icons.shopping_cart_outlined, size: 25, color: Colors.white),
+              label: 'Boutique',
             ),
             BottomNavigationBarItem(
-              icon: RiveAnimatedIcon(
-                onTap: () {
-                  setState(() {
-                    _currentIndex = 2;
-                  });
-                },
-                riveIcon: RiveIcon.bell,
-                width: 30,
-                height: 30,
-                color: Colors.white,
-                strokeWidth: 3,
-                loopAnimation: false,
-              ),
-              label: 'location',
+              icon: Icon(Icons.home_work_outlined, size: 25, color: Colors.white),
+              label: 'Location',
             ),
             BottomNavigationBarItem(
-              icon: RiveAnimatedIcon(
-                onTap: () {
-                  setState(() {
-                    _currentIndex = 3;
-                  });
-                },
-                riveIcon: RiveIcon.edit,
-                width: 30,
-                height: 30,
-                color: Colors.white,
-                strokeWidth: 3,
-                loopAnimation: false,
-              ),
-              label: 'formation',
+              icon: Icon(Icons.school_outlined, size: 25, color: Colors.white),
+              label: 'Formation',
             ),
           ],
         ),

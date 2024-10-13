@@ -144,7 +144,7 @@ List<RiveAsset> sidMenu = [
     src: Asset.iconSet1,
     artboard: 'HOME',
     stateMachineName: 'HOME_interactivity',
-    title: 'Home',
+    title: 'Aceuil',
     shapeStrokeTitle: 'home',
   ),
 ];
@@ -154,7 +154,7 @@ List<RiveAsset> sidMenu2 = [
     src: Asset.iconSet1,
     artboard: 'LIKE/STAR',
     stateMachineName: 'STAR_Interactivity',
-    title: 'Favorites',
+    title: 'Favoris',
     shapeStrokeTitle: 'star',
   ),
   RiveAsset(
